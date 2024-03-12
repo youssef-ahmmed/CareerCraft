@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  password      String
+  firstName     String
+  lastName      String
+  photo         String?
+  bio           String          @db.VarChar(1024)
+  resumeLink    String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  notifications Notifications[]
+  reviews       Reviews[]
+  skills        SkillUser[]
+  jobs          JobUser[]
+}
+
+model Skills {
+  id    Int         @id @default(autoincrement())
+  name  String      @unique
+  users SkillUser[]
+  jobs  SkillJob[]
+}
+
+model SkillUser {
+  user    Users  @relation(fields: [userId], references: [id])
+  userId  Int
+  skill   Skills @relation(fields: [skillId], references: [id])
+  skillId Int
+
+  @@id([userId, skillId])
+}
+
+model Jobs {
+  id               Int            @id @default(autoincrement())
+  title            String
+  description      String         @db.VarChar(1024)
+  location         JobLocation
+  type             JobType
+  salary           Int
+  status           Boolean        @default(true)
+  applicationLink  String
+  applicantNumbers Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  company          Companies      @relation(fields: [companyId], references: [id])
+  companyId        Int
+  users            JobUser[]
+  skills           SkillJob[]
+  notification     Notifications? @relation(fields: [notificationId], references: [id])
+  notificationId   Int?           @unique
+}
+
+model JobUser {
+  user   Users @relation(fields: [userId], references: [id])
+  userId Int
+  job    Jobs  @relation(fields: [jobId], references: [id])
+  jobId  Int
+
+  @@id([userId, jobId])
+}
+
+model SkillJob {
+  job     Jobs   @relation(fields: [jobId], references: [id])
+  jobId   Int
+  skill   Skills @relation(fields: [skillId], references: [id])
+  skillId Int
+
+  @@id([jobId, skillId])
+}
+
+model Notifications {
+  id        Int              @id @default(autoincrement())
+  content   String           @db.VarChar(1024)
+  type      NotificationType @default(NEW_JOB_POSTING)
+  status    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      Users            @relation(fields: [userId], references: [id])
+  userId    Int
+  job       Jobs?
+}
+
+model Reviews {
+  id          Int       @id @default(autoincrement())
+  rating      Int       @default(1)
+  content     String    @db.VarChar(1024)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        Users     @relation(fields: [userId], references: [id])
+  userId      Int
+  company     Companies @relation(fields: [companiesId], references: [id])
+  companiesId Int
+}
+
+model Companies {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  name        String
+  industry    String
+  location    String
+  logo        String
+  description String    @db.VarChar(1024)
+  websiteLink String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  reviews     Reviews[]
+  jobs        Jobs[]
+}
+
+enum NotificationType {
+  JOB_APPLICATION_UPDATE
+  NEW_JOB_POSTING
+}
+
+enum JobLocation {
+  REMOTE
+  OFFLINE
+  HYBRID
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+}
