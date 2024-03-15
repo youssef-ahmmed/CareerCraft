@@ -7,19 +7,33 @@
     "test": "tests"
   },
   "scripts": {
+    "lint": "./node_modules/.bin/eslint --fix",
+    "check-lint": "lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.8.0",
+    "@babel/core": "^7.8.0",
+    "@babel/node": "^7.8.0",
+    "@babel/preset-env": "^7.8.2",
+    "@babel/register": "^7.8.0",
     "@types/node": "^20.11.26",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
     "nodemon": "^3.1.0",
     "prisma": "^5.10.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2"
+    "@prisma/client": "^5.10.2",
+    "@types/dotenv": "^8.2.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5"
   }
 }
