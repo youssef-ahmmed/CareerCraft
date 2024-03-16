@@ -38,9 +38,9 @@ model Skills {
 }
 
 model SkillUser {
-  user    Users  @relation(fields: [userId], references: [id])
+  user    Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  Int
-  skill   Skills @relation(fields: [skillId], references: [id])
+  skill   Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
   skillId Int
 
   @@id([userId, skillId])
@@ -58,27 +58,27 @@ model Jobs {
   applicantNumbers Int
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
-  company          Companies      @relation(fields: [companyId], references: [id])
+  company          Companies      @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId        Int
   users            JobUser[]
   skills           SkillJob[]
-  notification     Notifications? @relation(fields: [notificationId], references: [id])
+  notification     Notifications? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
   notificationId   Int?           @unique
 }
 
 model JobUser {
-  user   Users @relation(fields: [userId], references: [id])
+  user   Users @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  job    Jobs  @relation(fields: [jobId], references: [id])
+  job    Jobs  @relation(fields: [jobId], references: [id], onDelete: Cascade)
   jobId  Int
 
   @@id([userId, jobId])
 }
 
 model SkillJob {
-  job     Jobs   @relation(fields: [jobId], references: [id])
+  job     Jobs   @relation(fields: [jobId], references: [id], onDelete: Cascade)
   jobId   Int
-  skill   Skills @relation(fields: [skillId], references: [id])
+  skill   Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
   skillId Int
 
   @@id([jobId, skillId])
@@ -91,21 +91,21 @@ model Notifications {
   status    Boolean          @default(false)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
-  user      Users            @relation(fields: [userId], references: [id])
+  user      Users            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   job       Jobs?
 }
 
 model Reviews {
-  id          Int       @id @default(autoincrement())
-  rating      Int       @default(1)
-  content     String    @db.VarChar(1024)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        Users     @relation(fields: [userId], references: [id])
-  userId      Int
-  company     Companies @relation(fields: [companiesId], references: [id])
-  companiesId Int
+  id        Int       @id @default(autoincrement())
+  rating    Int       @default(1)
+  content   String    @db.VarChar(1024)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  company   Companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
 }
 
 model Companies {
