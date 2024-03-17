@@ -108,11 +108,13 @@ class JobDao {
 
   static async getJobsByCompanyId(companyId: number) {
     return prisma.jobs.findMany({
-      where: {
-        companyId: {
-          equals: companyId,
-        }
-      }
+      where: { companyId }
+    });
+  }
+
+  static async getJobByNotificationId(notificationId: number) {
+    return prisma.jobs.findUnique({
+      where: { notificationId }
     });
   }
 }
