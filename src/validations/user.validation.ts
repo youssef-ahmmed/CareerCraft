@@ -3,7 +3,6 @@ import joi from 'joi';
 class UserValidation {
   static createUser (requestBody: Request) {
     const schema = joi.object({
-      id: joi.number(),
       email: joi.string().email().required(),
       password: joi.string().min(6).required(),
       firstName: joi.string().trim().min(3).required(),

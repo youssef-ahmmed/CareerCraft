@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import router from "./routes";
 
-
 dotenv.config();
 const PORT = process.env.PORT;
 
@@ -14,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  return res.status(200).json({ message: 'hello' });
+  return res.status(200).json({ message: 'Hello This is a Test' });
 });
 
 app.use('/api/v1/', router);
