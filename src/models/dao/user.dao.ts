@@ -11,11 +11,9 @@ class UserDao {
     });
   }
 
-  static async getUserByEmail(userDto: IUser) {
+  static async getUserByEmail(userEmail: string) {
     return prisma.users.findUnique({
-      where: {
-        email: userDto.email,
-      },
+      where: { email: userEmail },
     });
   }
 
@@ -37,7 +35,7 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userId: number, updatedObject) {
+  static async updateUserById(userId: number, updatedObject: Object) {
     return prisma.users.update({
       where: { id: userId },
       data: updatedObject,
