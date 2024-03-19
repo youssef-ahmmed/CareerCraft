@@ -4,6 +4,13 @@ import UserDto from "../models/dto/user.dto";
 import { Request, Response } from "express";
 
 class UserAuthController {
+
+  /**
+   * @desc register
+   * @route /api/v1/users/signup
+   * @method POST
+   * @access public
+   */
   static register = async (req: Request, res: Response) => {
     const userDto = new UserDto(req.body);
 
@@ -19,6 +26,12 @@ class UserAuthController {
     }
   }
 
+  /**
+   * @desc login
+   * @route /api/v1/users/login
+   * @method POST
+   * @access public
+   */
   static login = async (req: Request, res: Response) => {
     const userDto = new UserDto(req.body);
 
