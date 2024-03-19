@@ -1,13 +1,22 @@
 import UserDao from "../models/dao/user.dao";
 import { comparePassword, createToken } from "../utils/auth";
+import UserDto from "../models/dto/user.dto";
+import { Request, Response } from "express";
 
-class AuthController {
-  static register = async (req, res) => {
-    const { userDto } = req;
+class UserAuthController {
+
+  /**
+   * @desc register
+   * @route /api/v1/users/signup
+   * @method POST
+   * @access public
+   */
+  static register = async (req: Request, res: Response) => {
+    const userDto = new UserDto(req.body);
 
     try {
       const user = await UserDao.createUser(userDto);
-      const token: string = createToken(user);
+      const token: string = createToken(user.id);
 
       const { password, ...otherAttributes} = user;
 
@@ -17,11 +26,17 @@ class AuthController {
     }
   }
 
-  static login = async (req, res) => {
-    const { userDto } = req;
+  /**
+   * @desc login
+   * @route /api/v1/users/login
+   * @method POST
+   * @access public
+   */
+  static login = async (req: Request, res: Response) => {
+    const userDto = new UserDto(req.body);
 
     try {
-      const user = await UserDao.getUserByEmail(userDto);
+      const user = await UserDao.getUserByEmail(userDto.email);
       if (!user) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
@@ -31,7 +46,7 @@ class AuthController {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      const token: string = createToken(user);
+      const token: string = createToken(user.id);
       const { password, ...otherAttributes} = user;
 
       return res.status(201).json({ token, ...otherAttributes });
@@ -41,4 +56,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+export default UserAuthController;

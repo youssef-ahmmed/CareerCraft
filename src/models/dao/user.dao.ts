@@ -1,21 +1,17 @@
-import bcrypt from 'bcrypt';
-
 import prisma from './client.db';
-import IUser from '../../types/IUser';
+import {hashPassword} from "../../utils/auth";
 
 class UserDao {
   static async createUser(userDto: any) {
-    userDto.password = bcrypt.hashSync(userDto.password, Number(process.env.SECRET));
+    userDto.password = await hashPassword(userDto.password);
     return prisma.users.create({
       data: userDto,
     });
   }
 
-  static async getUserByEmail(userDto: IUser) {
+  static async getUserByEmail(userEmail: string) {
     return prisma.users.findUnique({
-      where: {
-        email: userDto.email,
-      },
+      where: { email: userEmail },
     });
   }
 
@@ -37,7 +33,7 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userId: number, updatedObject) {
+  static async updateUserById(userId: number, updatedObject: Object) {
     return prisma.users.update({
       where: { id: userId },
       data: updatedObject,
