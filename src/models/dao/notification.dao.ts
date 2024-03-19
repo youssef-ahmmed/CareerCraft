@@ -14,7 +14,7 @@ class NotificationDao {
     });
   }
 
-  static async deleteCompanyById(notificationId: number) {
+  static async deleteNotificationById(notificationId: number) {
     return prisma.notifications.delete({
       where: {
         id: notificationId,

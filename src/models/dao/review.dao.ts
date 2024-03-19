@@ -34,7 +34,6 @@ class ReviewDao {
       where: { id: reviewDto.id },
     });
   }
-
 }
 
 export default ReviewDao;

@@ -32,6 +32,12 @@ class UserDao {
   }
 
   static async updateUserById(userDto: IUser) {
+  static async deleteUserById(userId: number) {
+    return prisma.users.delete({
+      where: { id: userId }
+    });
+  }
+
     return prisma.users.update({
       where: {id: userDto.id},
       data: userDto,
