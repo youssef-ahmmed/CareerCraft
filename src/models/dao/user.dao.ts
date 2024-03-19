@@ -19,9 +19,9 @@ class UserDao {
     });
   }
 
-  static async getUserById(userDto: IUser) {
+  static async getUserById(userId: number) {
     return prisma.users.findUnique({
-      where: {id: userDto.id},
+      where: { id: userId },
       include: {
         notifications: true,
         reviews: true,
@@ -31,31 +31,31 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userDto: IUser) {
   static async deleteUserById(userId: number) {
     return prisma.users.delete({
       where: { id: userId }
     });
   }
 
+  static async updateUserById(userId: number, updatedObject) {
     return prisma.users.update({
-      where: {id: userDto.id},
-      data: userDto,
+      where: { id: userId },
+      data: updatedObject,
     });
   }
 
-  static async getUserJobs(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async getUserJobs(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.jobs;
   }
 
-  static async getUserSkills(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async getUserSkills(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.skills;
   }
 
-  static async getUserNotifications(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async getUserNotifications(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.notifications;
   }
 }
