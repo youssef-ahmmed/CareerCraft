@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
-import jwt, { JwtPayload } from "jsonwebtoken";
-
-import IUser from "../types/IUser";
+import jwt from "jsonwebtoken";
 
 export const hashPassword = (password: string) => {
-  return bcrypt.hash(password, Number(process.env.SECRET));
+  return bcrypt.hash(password, Number(process.env.HASHING_SECRET));
 }
 
 export const comparePassword = (password: string, hash: string) => {

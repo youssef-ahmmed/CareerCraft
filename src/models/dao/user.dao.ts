@@ -1,11 +1,9 @@
-import bcrypt from 'bcrypt';
-
 import prisma from './client.db';
-import IUser from '../../types/IUser';
+import {hashPassword} from "../../utils/auth";
 
 class UserDao {
   static async createUser(userDto: any) {
-    userDto.password = bcrypt.hashSync(userDto.password, Number(process.env.SECRET));
+    userDto.password = await hashPassword(userDto.password);
     return prisma.users.create({
       data: userDto,
     });
