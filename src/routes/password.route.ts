@@ -1,12 +1,20 @@
-import { Router } from 'express';
+import {Router} from 'express';
 
-import { verifyToken } from "../utils/auth";
 import PasswordController from "../controllers/password.controller";
-import { changePasswordValidator } from "../middlewares/password.validation";
+import {
+  changePasswordValidator,
+  forgetPasswordValidation,
+  resetPasswordValidation
+} from "../middlewares/password.validation";
+import {verifyToken} from "../middlewares/verify.token";
 
 const passwordRoute = Router();
 
 passwordRoute
   .put('/change-password', verifyToken, changePasswordValidator, PasswordController.changePassword);
+passwordRoute
+  .put('/forget-password', verifyToken, forgetPasswordValidation, PasswordController.forgetPassword);
+passwordRoute
+  .put('/reset-password/:userId/:token', verifyToken, resetPasswordValidation, PasswordController.resetPassword);
 
 export default passwordRoute;

@@ -1,12 +1,8 @@
-import UserDto from "../models/dto/user.dto";
 import UserValidation from "../validations/user.validation";
+import { validateReqBody } from "./req.body.validation";
 
-export const changePasswordValidator = async (req, res, next) => {
-  const error = UserValidation.changePassword(req.body);
+export const changePasswordValidator = validateReqBody(UserValidation.changePassword);
 
-  if (error && error.error && error.error.details && error.error.details[0]) {
-    return res.status(400).json({ message: error.error.details[0].message });
-  }
+export const forgetPasswordValidation = validateReqBody(UserValidation.forgetPassword);
 
-  return next();
-};
+export const resetPasswordValidation = validateReqBody(UserValidation.resetPassword);
