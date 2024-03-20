@@ -1,4 +1,5 @@
 import joi from 'joi';
+import { Request } from "express";
 
 class UserValidation {
   static createUser (requestBody: Request) {
@@ -19,6 +20,31 @@ class UserValidation {
     const schema = joi.object({
       email: joi.string().email().required(),
       password: joi.string().min(6).required(),
+    });
+
+    return schema.validate(requestBody);
+  }
+
+  static forgetPassword (requestBody: Request) {
+    const schema = joi.object({
+      email: joi.string().email().required(),
+    });
+
+    return schema.validate(requestBody);
+  }
+
+  static changePassword (requestBody: Request) {
+    const schema = joi.object({
+      currentPassword: joi.string().min(6).required(),
+      newPassword: joi.string().min(6).required(),
+    });
+
+    return schema.validate(requestBody);
+  }
+
+  static resetPassword (requestBody: Request) {
+    const schema = joi.object({
+      newPassword: joi.string().min(6).required(),
     });
 
     return schema.validate(requestBody);
