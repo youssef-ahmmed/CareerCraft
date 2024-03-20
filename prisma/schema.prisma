@@ -20,7 +20,7 @@ model Users {
   firstName     String
   lastName      String
   photo         String?
-  bio           String          @db.VarChar(1024)
+  bio           String?         @db.VarChar(1024)
   resumeLink    String
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
