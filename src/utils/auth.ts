@@ -20,9 +20,9 @@ export const verifyJwtToken = (token: string, secretKey: string) => {
   return jwt.verify(token, secretKey) as JwtPayload;
 }
 
-export const createEmailToken = (user, secretKey: string) => {
+export const createEmailToken = (createdObject, secretKey: string) => {
   return jwt.sign(
-    { id: user.id, email: user.email },
+    { id: createdObject.id, email: createdObject.email },
     secretKey,
     { expiresIn: '10m' }
   );
