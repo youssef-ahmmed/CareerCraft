@@ -27,14 +27,7 @@ class UserValidation {
 
   static forgetPassword (requestBody: Request) {
     const schema = joi.object({
-      id: joi.number().required(),
       email: joi.string().email().required(),
-      password: joi.string().min(6),
-      firstName: joi.string().trim().min(3),
-      lastName: joi.string().trim().min(3),
-      photo: joi.string().trim(),
-      bio: joi.string().min(5),
-      resumeLink: joi.string(),
     });
 
     return schema.validate(requestBody);
