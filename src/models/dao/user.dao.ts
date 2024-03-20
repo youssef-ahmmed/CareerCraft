@@ -1,8 +1,9 @@
 import prisma from './client.db';
 import {hashPassword} from "../../utils/auth";
+import IUser from '../../types/IUser';
 
 class UserDao {
-  static async createUser(userDto: any) {
+  static async createUser(userDto: IUser) {
     userDto.password = await hashPassword(userDto.password);
     return prisma.users.create({
       data: userDto,

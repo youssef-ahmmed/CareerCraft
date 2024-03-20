@@ -1,17 +1,15 @@
 import IUser from "../../types/IUser";
 
 class UserDto implements IUser {
-  id: number;
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   photo?: string;
-  bio: string;
+  bio?: string;
   resumeLink: string;
 
   constructor(userObject: IUser) {
-    this.id = userObject.id;
     this.email = userObject.email;
     this.password = userObject.password;
     this.firstName = userObject.firstName;

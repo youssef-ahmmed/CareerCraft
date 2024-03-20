@@ -24,7 +24,7 @@ class PasswordController {
 
       const secret: string = process.env.TOKEN_SECRET + user.password;
       const token: string = createEmailToken(user, secret);
-      const link: string = `${process.env.BASE_URL}/${user.id}/${token}`;
+      const link: string = `${process.env.BASE_URL}/users/reset-password/${user.id}/${token}`;
 
       await sendEmail(email, link);
 

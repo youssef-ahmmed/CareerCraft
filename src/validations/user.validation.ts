@@ -44,7 +44,7 @@ class UserValidation {
 
   static resetPassword (requestBody: Request) {
     const schema = joi.object({
-      newPassword: joi.string().min(6).required(),
+      password: joi.string().min(6).required(),
     });
 
     return schema.validate(requestBody);

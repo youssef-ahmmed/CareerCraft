@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import authRoute from './user.auth.route';
-import passwordRoute from './password.route';
+import passwordRoute from './user.password.route';
 import companyAuthRouter from './company.auth.route';
 import companyPasswordRouter from './company.password.route';
 

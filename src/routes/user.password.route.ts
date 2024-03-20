@@ -1,6 +1,6 @@
 import {Router} from 'express';
 
-import PasswordController from "../controllers/password.controller";
+import PasswordController from "../controllers/user.password.controller";
 import {
   changePasswordValidator,
   forgetPasswordValidation,
@@ -12,9 +12,11 @@ const passwordRoute = Router();
 
 passwordRoute
   .put('/change-password', verifyToken, changePasswordValidator, PasswordController.changePassword);
+
 passwordRoute
-  .post('/forget-password', verifyToken, forgetPasswordValidation, PasswordController.forgetPassword);
+  .post('/forget-password', forgetPasswordValidation, PasswordController.forgetPassword);
+
 passwordRoute
-  .post('/reset-password/:userId/:token', verifyToken, resetPasswordValidation, PasswordController.resetPassword);
+  .post('/reset-password/:id/:token', resetPasswordValidation, PasswordController.resetPassword);
 
 export default passwordRoute;

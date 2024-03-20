@@ -1,12 +1,11 @@
 interface IUser {
-  id?: number;
-  email?: string;
-  password?: string;
-  firstName?: string;
-  lastName?: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
   photo?: string;
   bio?: string;
-  resumeLink?: string;
+  resumeLink: string;
 }
   
 export default IUser;

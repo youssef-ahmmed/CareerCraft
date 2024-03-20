@@ -1,10 +1,16 @@
 import { Request, Response, NextFunction } from "express";
+import IExtendedRequest from '../types/IExtendedRequest';
 
 export const validateReqBody = (validationFunction: Function) => async (
-  req: Request,
+  req: IExtendedRequest,
   res: Response,
   next: NextFunction
   ) => {
+
+  if (req.file) {
+    const fieldName = req.file.fieldname;
+    req.body[fieldName] = req.file.filename;
+  }
 
   const error = validationFunction(req.body);
 
