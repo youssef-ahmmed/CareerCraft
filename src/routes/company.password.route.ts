@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import PasswordController from '../controllers/company.password.controller';
-import { verifyToken } from '../middlewares/verifyToken';
+import { verifyToken } from '../middlewares/verify.token';
 import {
   forgetPasswordValidation,
   resetPasswordValidation,
