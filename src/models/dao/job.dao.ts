@@ -30,6 +30,12 @@ class JobDao {
     });
   }
 
+  static async deleteJobById(jobId: number) {
+    return prisma.jobs.delete({
+      where: { id: jobId }
+    });
+  }
+
   static async getJobsMatchedUserSkills(userId: number) {
     const userSkills = await prisma.users.findUnique({
       where: { id: userId },

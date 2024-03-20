@@ -1,27 +1,23 @@
-import bcrypt from 'bcrypt';
-
 import prisma from './client.db';
-import IUser from '../../types/IUser';
+import {hashPassword} from "../../utils/auth";
 
 class UserDao {
   static async createUser(userDto: any) {
-    userDto.password = bcrypt.hashSync(userDto.password, Number(process.env.SECRET));
+    userDto.password = await hashPassword(userDto.password);
     return prisma.users.create({
       data: userDto,
     });
   }
 
-  static async getUserByEmail(userDto: IUser) {
+  static async getUserByEmail(userEmail: string) {
     return prisma.users.findUnique({
-      where: {
-        email: userDto.email,
-      },
+      where: { email: userEmail },
     });
   }
 
-  static async getUserById(userDto: IUser) {
+  static async getUserById(userId: number) {
     return prisma.users.findUnique({
-      where: {id: userDto.id},
+      where: { id: userId },
       include: {
         notifications: true,
         reviews: true,
@@ -31,25 +27,31 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userDto: IUser) {
-    return prisma.users.update({
-      where: {id: userDto.id},
-      data: userDto,
+  static async deleteUserById(userId: number) {
+    return prisma.users.delete({
+      where: { id: userId }
     });
   }
 
-  static async getUserJobs(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async updateUserById(userId: number, updatedObject: Object) {
+    return prisma.users.update({
+      where: { id: userId },
+      data: updatedObject,
+    });
+  }
+
+  static async getUserJobs(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.jobs;
   }
 
-  static async getUserSkills(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async getUserSkills(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.skills;
   }
 
-  static async getUserNotifications(userDto: IUser) {
-    const user = await UserDao.getUserById(userDto);
+  static async getUserNotifications(userId: number) {
+    const user = await UserDao.getUserById(userId);
     return user.notifications;
   }
 }
