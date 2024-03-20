@@ -1,8 +1,9 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
+import { verifyJwtToken } from "../utils/auth";
+import IExtendedRequest from "../types/IExtendedRequest";
 
 export const verifyToken = (
-  req: Request,
+  req: IExtendedRequest,
   res: Response,
   next: NextFunction
   ) => {
@@ -20,11 +21,11 @@ export const verifyToken = (
   }
 
   try {
-    const payload = jwt.verify(token, process.env.TOKEN_SECRET) as JwtPayload;
-    // req.id = payload.id;
+    const payload = verifyJwtToken(token, process.env.TOKEN_SECRET);
+    req.id = payload.id;
 
     return next();
   } catch (err) {
     return res.status(401).json({ message: 'Not a valid token' });
   }
-}
+};
