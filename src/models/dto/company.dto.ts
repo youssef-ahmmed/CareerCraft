@@ -1,7 +1,6 @@
 import ICompany from "../../types/ICompany";
 
 class CompanyDto implements ICompany {
-  id: number;
   email: string;
   password: string;
   name: string;
@@ -12,7 +11,6 @@ class CompanyDto implements ICompany {
   websiteLink: string;
 
   constructor(companyObject: ICompany) {
-    this.id = companyObject.id;
     this.email = companyObject.email;
     this.password = companyObject.password;
     this.name = companyObject.name;

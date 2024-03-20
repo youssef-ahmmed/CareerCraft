@@ -1,37 +1,37 @@
 import prisma from "./client.db";
 import ICompany from "../../types/ICompany";
-import bcrypt from 'bcrypt';
+import { hashPassword } from "../../utils/auth";
 
 class CompanyDao {
-  static async createCompany(companyDto: any) {
-    companyDto.password = bcrypt.hashSync(companyDto.password, Number(process.env.SECRET));
+  static async createCompany(companyDto: ICompany) {
+    companyDto.password = await hashPassword(companyDto.password);
     return prisma.companies.create({
       data: companyDto,
     });
   }
 
-  static async getCompanyByEmail(companyDto: ICompany) {
+  static async getCompanyByEmail(companyEmail: string) {
     return prisma.companies.findUnique({
-      where: {email: companyDto.email},
+      where: {email: companyEmail},
     });
   }
 
-  static async getCompanyById(companyDto: ICompany) {
+  static async getCompanyById(companyId: number) {
     return prisma.companies.findUnique({
-      where: {id: companyDto.id},
+      where: {id: companyId},
     });
   }
 
-  static async updateCompanyById(companyDto: any) {
+  static async updateCompanyById(comapanyId: number, updatedObject: object) {
     return prisma.companies.update({
-      where: {id: companyDto.id},
-      data: companyDto,
+      where: {id: comapanyId},
+      data: updatedObject,
     });
   }
 
-  static async deleteCompanyById(companyDto: ICompany) {
+  static async deleteCompanyById(companyId: number) {
     return prisma.companies.delete({
-      where: {id: companyDto.id},
+      where: {id: companyId},
     });
   }
 }
