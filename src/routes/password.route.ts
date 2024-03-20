@@ -13,8 +13,8 @@ const passwordRoute = Router();
 passwordRoute
   .put('/change-password', verifyToken, changePasswordValidator, PasswordController.changePassword);
 passwordRoute
-  .put('/forget-password', verifyToken, forgetPasswordValidation, PasswordController.forgetPassword);
+  .post('/forget-password', verifyToken, forgetPasswordValidation, PasswordController.forgetPassword);
 passwordRoute
-  .put('/reset-password/:userId/:token', verifyToken, resetPasswordValidation, PasswordController.resetPassword);
+  .post('/reset-password/:userId/:token', verifyToken, resetPasswordValidation, PasswordController.resetPassword);
 
 export default passwordRoute;

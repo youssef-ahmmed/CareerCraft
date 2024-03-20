@@ -73,7 +73,7 @@ class PasswordController {
   /**
    * @desc    change password
    * @route   /api/v1/users/change-password/
-   * @method  POST
+   * @method  PUT
    * @access  public
    */
   static changePassword = async (req: IExtendedRequest, res: Response) => {
