@@ -18,8 +18,6 @@ class UserController {
       userId = parseInt(req.id, 10);
     }
 
-    console.log(userId)
-
     try {
       const user = await UserDao.getUserById(userId);
       if (!user) {
