@@ -1,21 +1,21 @@
 import { Router } from 'express';
-import PasswordController from '../controllers/company.password.controller';
+import companyPasswordController from '../controllers/company.password.controller';
 import { verifyToken } from '../middlewares/verify.token';
 import {
-  forgetPasswordValidation,
-  resetPasswordValidation,
-  changePasswordValidation,
-} from '../middlewares/company.password.validation';
+  forgetPasswordValidator,
+  resetPasswordValidator,
+  changePasswordValidator,
+} from '../middlewares/entity.password.validation';
 
 const companyPasswordRouter = Router();
 
 companyPasswordRouter
-  .post('/forget-password', forgetPasswordValidation, PasswordController.forgetPassword);
+  .put('/change-password', verifyToken, changePasswordValidator, companyPasswordController.changePassword);
 
 companyPasswordRouter
-  .post('/reset-password/:id/:token', resetPasswordValidation, PasswordController.resetPassword);
+  .post('/forget-password', forgetPasswordValidator, companyPasswordController.forgetPassword);
 
 companyPasswordRouter
-  .put('/change-password', verifyToken, changePasswordValidation, PasswordController.changePassword);
+  .post('/reset-password/:id/:token', resetPasswordValidator, companyPasswordController.resetPassword);
 
 export default companyPasswordRouter;

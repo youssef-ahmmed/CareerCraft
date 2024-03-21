@@ -8,7 +8,7 @@ export const verifyToken = (
   next: NextFunction
   ) => {
 
-  const bearer = req.headers.authorization;
+  const bearer: string = req.headers.authorization;
 
   if (!bearer) {
     return res.status(401).json({ message: 'Not authorized' });

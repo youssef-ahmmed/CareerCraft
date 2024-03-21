@@ -4,7 +4,7 @@ import {
   validateLoginUser,
   validateRegisterUser
 } from '../middlewares/user.validation';
-import UserAuthController from '../controllers/user.auth.controller';
+import userAuthController from '../controllers/user.auth.controller';
 import uploadImage from '../middlewares/upload.image';
 
 const userRouter = Router();
@@ -14,9 +14,9 @@ userRouter
     uploadImage.single('photo'),
     validateRegisterUser,
     validateUserEmailExistence,
-    UserAuthController.register);
+    userAuthController.register);
 
 userRouter
-  .post('/login', validateLoginUser, UserAuthController.login);
+  .post('/login', validateLoginUser, userAuthController.login);
 
 export default userRouter;
