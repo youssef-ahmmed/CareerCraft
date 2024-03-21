@@ -1,22 +1,22 @@
-import {Router} from 'express';
+import { Router } from 'express';
 
-import PasswordController from "../controllers/user.password.controller";
+import userPasswordController from "../controllers/user.password.controller";
 import {
+  forgetPasswordValidator,
+  resetPasswordValidator,
   changePasswordValidator,
-  forgetPasswordValidation,
-  resetPasswordValidation
-} from "../middlewares/password.validation";
-import {verifyToken} from "../middlewares/verify.token";
+} from '../middlewares/entity.password.validation';
+import { verifyToken } from "../middlewares/verify.token";
 
 const passwordRoute = Router();
 
 passwordRoute
-  .put('/change-password', verifyToken, changePasswordValidator, PasswordController.changePassword);
+  .put('/change-password', verifyToken, changePasswordValidator, userPasswordController.changePassword);
 
 passwordRoute
-  .post('/forget-password', forgetPasswordValidation, PasswordController.forgetPassword);
+  .post('/forget-password', forgetPasswordValidator, userPasswordController.forgetPassword);
 
 passwordRoute
-  .post('/reset-password/:id/:token', resetPasswordValidation, PasswordController.resetPassword);
+  .post('/reset-password/:id/:token', resetPasswordValidator, userPasswordController.resetPassword);
 
 export default passwordRoute;
