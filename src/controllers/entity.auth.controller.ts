@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
 import { comparePassword, createToken } from "../utils/auth";
-import UserDto from "../models/dto/user.dto";
-import CompanyDto from '../models/dto/company.dto';
-import UserDao from "../models/dao/user.dao";
-import CompanyDao from '../models/dao/company.dao';
 
 abstract class EntityAuthController {
   protected abstract createEntity(entityDto: any): Promise<any>;
