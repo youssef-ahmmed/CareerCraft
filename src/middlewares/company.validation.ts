@@ -7,3 +7,5 @@ export const validateCompanyRegister = validateReqBody(EntityValidation.createCo
 export const validateCompanyLogin = validateReqBody(EntityValidation.login);
 
 export const validateCompanyEmailExistence = validateEmailExistence(CompanyDao.getCompanyByEmail);
+
+export const validateUpdateCompanyById = validateReqBody(CompanyValidation.updateCompany);
