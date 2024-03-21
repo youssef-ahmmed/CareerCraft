@@ -52,7 +52,6 @@ class UserValidation {
 
   static updateUser (requestBody: Request) {
     const schema = joi.object({
-      id: joi.number().required(),
       email: joi.string().email(),
       password: joi.string().min(6),
       firstName: joi.string().trim().min(3),

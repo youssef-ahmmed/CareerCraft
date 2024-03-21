@@ -7,3 +7,5 @@ export const validateRegisterUser = validateReqBody(UserValidation.createUser);
 export const validateLoginUser = validateReqBody(UserValidation.login);
 
 export const validateUserEmailExistence = validateEmailExistence(UserDao.getUserByEmail);
+
+export const validateUpdateUserById = validateReqBody(UserValidation.updateUser);
