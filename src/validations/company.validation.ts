@@ -53,7 +53,6 @@ class CompanyValidation {
 
   static updateCompany(requestBody: Request) {
     const schema = joi.object({
-      id: joi.number().required(),
       email: joi.string().email(),
       password: joi.string().min(6),
       name: joi.string().trim().min(3),
