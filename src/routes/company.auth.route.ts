@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import uploadImage from '../middlewares/upload.image';
-import CompanyAuthController from '../controllers/company.auth.controller';
+import companyAuthController from '../controllers/company.auth.controller';
 import {
   validateCompanyRegister,
   validateCompanyLogin,
@@ -14,9 +14,9 @@ companyAuthRouter
     uploadImage.single('logo'),
     validateCompanyRegister,
     validateCompanyEmailExistence,
-    CompanyAuthController.register);
+    companyAuthController.register);
 
 companyAuthRouter
-  .post('/login', validateCompanyLogin, CompanyAuthController.login);
+  .post('/login', validateCompanyLogin, companyAuthController.login);
 
 export default companyAuthRouter;

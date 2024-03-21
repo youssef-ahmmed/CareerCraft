@@ -1,10 +1,10 @@
 import { validateEmailExistence, validateReqBody } from './req.body.validation';
-import CompanyValidation from '../validations/company.validation';
+import EntityValidation from '../validations/entity.validation';
 import CompanyDao from '../models/dao/company.dao';
 
-export const validateCompanyRegister = validateReqBody(CompanyValidation.createCompany);
+export const validateCompanyRegister = validateReqBody(EntityValidation.createCompany);
 
-export const validateCompanyLogin = validateReqBody(CompanyValidation.login);
+export const validateCompanyLogin = validateReqBody(EntityValidation.login);
 
 export const validateCompanyEmailExistence = validateEmailExistence(CompanyDao.getCompanyByEmail);
 

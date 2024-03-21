@@ -1,59 +1,20 @@
-import UserDao from "../models/dao/user.dao";
-import { comparePassword, createToken } from "../utils/auth";
 import UserDto from "../models/dto/user.dto";
-import { Request, Response } from "express";
+import EntityAuthController from "./entity.auth.controller";
+import UserDao from "../models/dao/user.dao";
 
-class UserAuthController {
-
-  /**
-   * @desc register
-   * @route /api/v1/users/signup
-   * @method POST
-   * @access public
-   */
-  static register = async (req: Request, res: Response) => {
-    const userDto = new UserDto(req.body);
-
-    try {
-      const user = await UserDao.createUser(userDto);
-      const token: string = createToken(user.id);
-
-      const { password, ...otherAttributes} = user;
-
-      return res.status(201).json({ token, ...otherAttributes });
-    } catch (err) {
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
+class UserAuthController extends EntityAuthController {
+  protected async createEntity(userDto: UserDto): Promise<any> {
+    return await UserDao.createUser(userDto);
   }
 
-  /**
-   * @desc login
-   * @route /api/v1/users/login
-   * @method POST
-   * @access public
-   */
-  static login = async (req: Request, res: Response) => {
-    const userDto = new UserDto(req.body);
+  protected async getEntityByEmail(email: string): Promise<any> {
+    return await UserDao.getUserByEmail(email);
+  }
 
-    try {
-      const user = await UserDao.getUserByEmail(userDto.email);
-      if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-
-      const isValid: boolean = await comparePassword(userDto.password, user.password);
-      if (!isValid) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-
-      const token: string = createToken(user.id);
-      const { password, ...otherAttributes} = user;
-
-      return res.status(201).json({ token, ...otherAttributes });
-    } catch (err) {
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
+  protected getEntityDto(requestBody: any): UserDto {
+    return new UserDto(requestBody);
   }
 }
 
-export default UserAuthController;
+const userAuthController = new UserAuthController();
+export default userAuthController;
