@@ -1,4 +1,5 @@
 import UserController from '../controllers/user.controller';
+import uploadImage from '../middlewares/upload.image';
 import { validateUpdateUserById } from '../middlewares/user.validation';
 import { verifyToken } from '../middlewares/verify.token';
 import { Router } from 'express';
@@ -16,6 +17,7 @@ userRouter
 
 userRouter
   .put('/', 
+    uploadImage.single('photo'),
     verifyToken,
     validateUpdateUserById,
     UserController.updateUserById);
