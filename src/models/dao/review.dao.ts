@@ -2,36 +2,36 @@ import prisma from './client.db';
 import IReview from "../../types/IReview";
 
 class ReviewDao {
-  static async createReview(reviewDto: any) {
+  static async createReview(reviewDto: IReview) {
     return prisma.reviews.create({
       data: reviewDto,
     });
   }
 
-  static async updateReview(reviewDto: IReview) {
+  static async updateReview(reviewId: number, objectToBeUpdated: object) {
     return prisma.reviews.update({
-      where: { id: reviewDto.id },
-      data: reviewDto
+      where: { id: reviewId },
+      data: objectToBeUpdated
     });
   }
 
-  static async getReviewById(reviewDto: IReview) {
+  static async getReviewById(reviewId: number) {
     return prisma.reviews.findUnique({
-      where: { id: reviewDto.id },
+      where: { id: reviewId },
     });
   }
 
-  static async getReviewsByCompanyId(reviewDto: IReview) {
+  static async getReviewsByCompanyId(companyId: number) {
     return prisma.reviews.findMany({
       where: {
-        companyId: reviewDto.companyId,
+        companyId: companyId,
       }
     });
   }
 
-  static async deleteReviewById(reviewDto: IReview) {
+  static async deleteReviewById(reviewId: number) {
     return prisma.reviews.delete({
-      where: { id: reviewDto.id },
+      where: { id: reviewId },
     });
   }
 }
