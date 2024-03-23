@@ -18,6 +18,10 @@ class SkillController {
       const userId: number = parseInt(req.id, 10);
 
       const createdSkills = await SkillDao.createSkillsByUser(skillsList, userId);
+      if (createdSkills.length === 0) {
+        return res.status(200).json({ message: 'All provided skills are already related to the user' });
+      }
+
       return res.status(201).json(createdSkills);
     } catch (err) {
       console.error(err)

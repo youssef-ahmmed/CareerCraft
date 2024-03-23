@@ -41,6 +41,9 @@ class SkillDao {
         skill = await SkillDao.createSkill(skillDto);
       }
 
+      const skilByUser = await SkillDao.getSkillByIdAndUserId(userId, skill.id);
+      if (skilByUser) continue;
+
       const createdSkill = await prisma.skillUser.create({
         data: {
           skillId: skill.id,
@@ -66,6 +69,9 @@ class SkillDao {
       if (!skill) {
         skill = await SkillDao.createSkill(skillDto);
       }
+
+      const skillByJob = await SkillDao.getSkillByIdAndJobId(jobId, skill.id);
+      if (skillByJob) continue;
 
       const createdSkill = await prisma.skillJob.create({
         data: {
