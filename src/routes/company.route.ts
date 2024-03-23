@@ -22,4 +22,7 @@ companyRouter
     validateUpdateCompanyById,
     CompanyController.updateCompanyById);
 
+companyRouter
+  .get('/:companyId/jobs', verifyToken, CompanyController.getJobsByCompanyId);
+
 export default companyRouter;

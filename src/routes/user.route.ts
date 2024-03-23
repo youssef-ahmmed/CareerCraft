@@ -6,9 +6,10 @@ import { Router } from 'express';
 const userRouter = Router();
 
 userRouter
-  .get('/:userId', verifyToken, UserController.getUserById);
+  .post('/jobs/:jobId', verifyToken, UserController.applyUserForJob);
 
 userRouter
+  .get('/:userId', verifyToken, UserController.getUserById)
   .get('/profile', verifyToken, UserController.getUserById);
 
 userRouter
