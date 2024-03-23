@@ -16,7 +16,6 @@ class CompanyController {
     if (req.params.companyId !== 'profile') {
       companyId = parseInt(req.params.companyId, 10);
     } else {
-      
       companyId = parseInt(req.id, 10);
     }
 
@@ -28,12 +27,20 @@ class CompanyController {
 
       const { password, ...otherAttributes } = company;
 
-      console.log('heloo')
-
       res.status(200).json({ ...otherAttributes });
-
     } catch (err) {
-      console.error(err)
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  static getJobsByCompanyId = async (req: IExtendedRequest, res: Response) => {
+    const companyId: number = parseInt(req.params.companyId);
+
+    try {
+      const jobs = await CompanyDao.getJobsByCompanyId(companyId);
+
+      return res.status(200).json(jobs);
+    } catch (err) {
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -45,13 +52,13 @@ class CompanyController {
    * @access  private
    */
    static updateCompanyById = async (req: IExtendedRequest, res: Response) => {
-    const companyId = parseInt(req.id, 10);
+    const companyId: number = parseInt(req.id, 10);
     const { email, name, industry, location, logo, description, websiteLink } = req.body;
 
-    const compayToBeUpdated = { email, name, industry, location, logo, description, websiteLink };
+    const companyToBeUpdated = { email, name, industry, location, logo, description, websiteLink };
 
     try {
-      const updatedCompany = await CompanyDao.updateCompanyById(companyId, compayToBeUpdated);
+      const updatedCompany = await CompanyDao.updateCompanyById(companyId, companyToBeUpdated);
       if (!updatedCompany) {
         return res.status(404).json({ message: 'Company not found' });
       }
@@ -71,7 +78,7 @@ class CompanyController {
    * @access  private
    */
   static deleteCompanyById = async (req: IExtendedRequest, res: Response) => {
-    const companyId = parseInt(req.id, 10);
+    const companyId: number = parseInt(req.id, 10);
 
     try {
       const deletedCompany = await CompanyDao.deleteCompanyById(companyId);
