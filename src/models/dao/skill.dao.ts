@@ -9,9 +9,25 @@ class SkillDao {
     });
   }
 
+  static async getSkillById(skillId: number) {
+    return prisma.skills.findUnique({
+      where: { id: skillId }
+    });
+  }
+
   static async getSkillByName(SkillDto: ISkill) {
     return prisma.skills.findUnique({
       where: { name: SkillDto.name },
+    });
+  }
+
+  static async getSkillsByUserId(userId: number) {
+    return prisma.skills.findMany({
+      where: {
+        users: {
+          some: { userId },
+        },
+      },
     });
   }
 

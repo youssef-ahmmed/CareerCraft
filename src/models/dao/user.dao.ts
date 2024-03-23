@@ -46,11 +46,6 @@ class UserDao {
     return user.jobs;
   }
 
-  static async getUserSkills(userId: number) {
-    const user = await UserDao.getUserById(userId);
-    return user.skills;
-  }
-
   static async getUserNotifications(userId: number) {
     const user = await UserDao.getUserById(userId);
     return user.notifications;
