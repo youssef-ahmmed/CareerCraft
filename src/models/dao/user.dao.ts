@@ -34,10 +34,10 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userId: number, updatedObject: Object) {
+  static async updateUserById(userId: number, updatedUserObject: object) {
     return prisma.users.update({
       where: { id: userId },
-      data: updatedObject,
+      data: updatedUserObject,
     });
   }
 

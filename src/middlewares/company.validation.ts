@@ -8,4 +8,4 @@ export const validateCompanyLogin = validateReqBody(EntityValidation.login);
 
 export const validateCompanyEmailExistence = validateEmailExistence(CompanyDao.getCompanyByEmail);
 
-export const validateUpdateCompanyById = validateReqBody(CompanyValidation.updateCompany);
+export const validateUpdateCompanyById = validateReqBody(EntityValidation.updateCompany);

@@ -7,16 +7,16 @@ import {
 import userAuthController from '../controllers/user.auth.controller';
 import uploadImage from '../middlewares/upload.image';
 
-const userRouter = Router();
+const userAuthRouter = Router();
 
-userRouter
+userAuthRouter
   .post('/signup',
     uploadImage.single('photo'),
     validateRegisterUser,
     validateUserEmailExistence,
     userAuthController.register);
 
-userRouter
+userAuthRouter
   .post('/login', validateLoginUser, userAuthController.login);
 
-export default userRouter;
+export default userAuthRouter;
