@@ -1,7 +1,6 @@
 import IJob from "../../types/IJob";
 
 class JobDto implements IJob {
-  id: number;
   title: string;
   description: string;
   location: string;
@@ -14,7 +13,6 @@ class JobDto implements IJob {
   notificationId?: number;
 
   constructor(jobObject: IJob) {
-    this.id = jobObject.id;
     this.title = jobObject.title;
     this.description = jobObject.description;
     this.location = jobObject.location;
