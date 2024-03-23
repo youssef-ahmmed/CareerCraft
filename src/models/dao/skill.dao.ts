@@ -3,7 +3,7 @@ import SkillDto from "../dto/skill.dto";
 import ISkill from "../../types/ISkill";
 
 class SkillDao {
-  static async createSkill(skillDto: any) {
+  static async createSkill(skillDto: ISkill) {
     return prisma.skills.create({
       data: skillDto,
     });
@@ -48,7 +48,10 @@ class SkillDao {
         }
       });
 
-      createdSkills.push(createdSkill);
+      createdSkills.push({
+        id: createdSkill.skillId,
+        name: skillName
+      });
     }
 
     return createdSkills;
@@ -71,10 +74,57 @@ class SkillDao {
         }
       });
 
-      createdSkills.push(createdSkill);
+      createdSkills.push({
+        id: createdSkill.skillId,
+        name: skillName
+      });
     }
 
     return createdSkills;
+  }
+
+  static async getSkillByIdAndUserId(userId: number, skillId: number) {
+    return prisma.skillUser.findUnique({
+      where: {
+        userId_skillId: {
+          userId,
+          skillId
+        }
+      }
+    });
+  }
+
+  static async getSkillByIdAndJobId(jobId: number, skillId: number) {
+    return prisma.skillJob.findUnique({
+      where: {
+        jobId_skillId: {
+          jobId,
+          skillId
+        }
+      }
+    });
+  }
+
+  static async deleteSkillByUser(userId: number, skillId: number) {
+    return prisma.skillUser.delete({
+      where: {
+        userId_skillId: {
+          userId,
+          skillId
+        }
+      }
+    });
+  }
+
+  static async deleteSkillByJob(jobId: number, skillId: number) {
+    return prisma.skillJob.delete({
+      where: {
+        jobId_skillId: {
+          jobId,
+          skillId
+        }
+      }
+    });
   }
 }
 
