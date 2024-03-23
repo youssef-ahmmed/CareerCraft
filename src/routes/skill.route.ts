@@ -34,6 +34,14 @@ skillRouter
   );
 
 skillRouter
+  .post('/jobs/:jobId/skills',
+    verifyToken,
+    validateCreateSkill,
+    verifyCompanyExistance,
+    SkillController.creatSkillsByJob
+  );
+
+skillRouter
   .delete('/jobs/:jobId/skills/:skillId',
     verifyToken,
     verifyCompanyExistance,

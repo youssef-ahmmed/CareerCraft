@@ -35,7 +35,7 @@ class SkillController {
    * @method  GET
    * @access  private
   */
-  static getSkillsByUserId = async(req: IExtendedRequest, res: Response) => {
+  static getSkillsByUserId = async (req: IExtendedRequest, res: Response) => {
     try {
       const userId: number = parseInt(req.params.userId, 10);
       const user = await UserDao.getUserById(userId);
@@ -64,21 +64,53 @@ class SkillController {
     try {
       const skillById = await SkillDao.getSkillById(skillId);
       if (!skillById) {
-        return res.status(404).json({ message: 'Not found'});
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const skillByIdAndUserId = await SkillDao.getSkillByIdAndUserId(userId, skillId);
       if (!skillByIdAndUserId) {
-        return res.status(403).json({ message: 'Permission denied'});
+        return res.status(403).json({ message: 'Permission denied' });
       }
 
       await SkillDao.deleteSkillByUser(userId, skillId);
-      return res.status(200).json({ message: 'Skill deleted successfully'});
+      return res.status(200).json({ message: 'Skill deleted successfully' });
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
-  
+
+  /**
+   * @desc    Create skills for job
+   * @route   /api/v1/jobs/jobId/skills
+   * @method  POST
+   * @access  private
+  */
+  static creatSkillsByJob = async (req: IExtendedRequest, res: Response) => {
+    try {
+      const skillsList: string[] = req.body.skills;
+      const jobId: number = parseInt(req.params.jobId, 10);
+      const companyId: number = parseInt(req.id);
+
+      const job = await JobDao.getJobById(jobId);
+      if (!job) {
+        return res.status(404).json({ message: 'Not found'});
+      }
+      if (companyId !== job.companyId) {
+        return res.status(403).json({ message: 'Permission denied'});
+      }
+
+      const createdSkills = await SkillDao.createSkillsByJob(skillsList, jobId);
+      if (createdSkills.length === 0) {
+        return res.status(200).json({ message: 'All provided skills are already related to the job' });
+      }
+
+      return res.status(201).json(createdSkills);
+    } catch (err) {
+      console.error(err)
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
   /**
    * @desc    Delete skill for a job
    * @route   /api/v1/jobs/:jobId
