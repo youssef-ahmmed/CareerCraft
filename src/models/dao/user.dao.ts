@@ -10,6 +10,15 @@ class UserDao {
     });
   }
 
+  static async applyUserForJob(userId: number, jobId: number) {
+    return prisma.jobUser.create({
+      data: {
+        userId,
+        jobId
+      }
+    });
+  }
+
   static async getUserByEmail(userEmail: string) {
     return prisma.users.findUnique({
       where: { email: userEmail },
