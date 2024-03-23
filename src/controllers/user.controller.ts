@@ -1,8 +1,23 @@
 import UserDao from '../models/dao/user.dao';
 import { Response } from 'express';
 import IExtendedRequest from '../types/IExtendedRequest';
+import JobDao from "../models/dao/job.dao";
 
 class UserController {
+
+  static applyUserForJob = async (req: IExtendedRequest, res: Response) => {
+    const jobId: number = parseInt(req.params.jobId);
+    const userId = parseInt(req.id);
+
+    try {
+      const newJob = await UserDao.applyUserForJob(userId, jobId);
+
+      return res.status(201).json({ message: 'Application submitted successfully' });
+    } catch (err) {
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
   /**
    * @desc    get user by Id or get user profile
    * @route   /api/v1/users/:userId or /api/v1/users/profile 
@@ -29,7 +44,6 @@ class UserController {
       res.status(200).json({ ...otherAttributes });
 
     } catch (err) {
-      console.error(err)
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
