@@ -20,7 +20,7 @@ class EntityValidation {
       lastName: joi.string().trim().min(3).required(),
       photo: joi.string().trim(),
       bio: joi.string().min(5),
-      resumeLink: joi.string().required(),
+      resumeLink: joi.string().uri().required(),
     });
 
     return schema.validate(requestBody);
@@ -49,7 +49,7 @@ class EntityValidation {
       location: joi.string().trim().min(3).required(),
       logo: joi.string().trim().min(3).required(),
       description: joi.string().trim().min(10).required(),
-      websiteLink: joi.string().trim().min(3).required(),
+      websiteLink: joi.string().uri().trim().min(3).required(),
     });
 
     return schema.validate(requestBody);
