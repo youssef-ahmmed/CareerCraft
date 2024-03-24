@@ -119,7 +119,7 @@ class ReviewController {
         return res.status(403).json({ message: 'Permission Denied' });
       }
 
-      const deltedReview = await ReviewDao.deleteReviewById(reviewId);
+      await ReviewDao.deleteReviewById(reviewId);
 
       return res.status(200).json({ message: 'Review deleted successfully' });
     } catch (err){
