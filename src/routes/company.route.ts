@@ -1,5 +1,7 @@
 import CompanyController from '../controllers/company.controller';
+import ReviewController from '../controllers/review.controller';
 import { validateUpdateCompanyById } from '../middlewares/company.validation';
+import { verifyEntityExistance } from "../middlewares/verify.entity";
 import uploadImage from '../middlewares/upload.image';
 import { verifyToken } from '../middlewares/verify.token';
 import { Router } from 'express';
@@ -20,7 +22,15 @@ companyRouter
     uploadImage.single('logo'),
     verifyToken,
     validateUpdateCompanyById,
-    CompanyController.updateCompanyById);
+    CompanyController.updateCompanyById
+  );
+
+companyRouter
+  .get('/:companyId/reviews',
+    verifyToken,
+    verifyEntityExistance,
+    ReviewController.getReviewsByCompanyId
+  );
 
 companyRouter
   .get('/:companyId/jobs', verifyToken, CompanyController.getJobsByCompanyId);
