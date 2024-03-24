@@ -15,7 +15,6 @@ class JobValidation {
       status: joi.boolean().default(true),
       applicationLink: joi.string().trim().uri().required(),
       applicantNumbers: joi.number().integer().required(),
-      companyId: joi.number().integer().required(),
       notificationId: joi.number().integer().optional(),
       skills: joi.array().items(joi.string().trim().required()).min(1).required(),
     });
@@ -33,7 +32,6 @@ class JobValidation {
       status: joi.boolean().default(true),
       applicationLink: joi.string().trim().uri(),
       applicantNumbers: joi.number().integer(),
-      companyId: joi.number().integer().optional(),
       notificationId: joi.number().integer().optional(),
       skills: joi.array().items(joi.string().trim().required()).min(1),
     });

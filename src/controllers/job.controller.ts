@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import JobDto from "../models/dto/job.dto";
 import JobDao from "../models/dao/job.dao";
+import IExtendedRequest from "../types/IExtendedRequest";
 
 class JobController {
 
-  static createNewJob = async (req: Request, res: Response)=> {
+  static createNewJob = async (req: IExtendedRequest, res: Response)=> {
     const jobDto: JobDto = new JobDto(req.body);
+    const companyId: number = parseInt(req.id);
 
     try {
-      const job = await JobDao.createJob(jobDto);
+      const job = await JobDao.createJob({ ...jobDto, companyId });
 
       return res.status(201).json(job);
     } catch (err) {
@@ -44,9 +46,10 @@ class JobController {
     }
   }
 
-  static updateSpecificJobById = async (req: Request, res: Response) => {
+  static updateSpecificJobById = async (req: IExtendedRequest, res: Response) => {
     const jobId: number = parseInt(req.params.jobId);
     const jobDto: JobDto = new JobDto(req.body);
+    const companyId: number = parseInt(req.id);
 
     try {
       const job = await JobDao.getJobById(jobId);
@@ -54,7 +57,7 @@ class JobController {
         return res.status(404).json({ message: 'Job not found' });
       }
 
-      const updatedJob = await JobDao.updateJobById(jobId, jobDto);
+      const updatedJob = await JobDao.updateJobById(jobId, { ...jobDto, companyId });
 
       return res.status(201).json(updatedJob);
     } catch (err) {
