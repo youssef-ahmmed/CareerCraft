@@ -1,9 +1,8 @@
 interface IReview {
-  id?: number;
-  rating?: number;
-  content?: string;
-  userId?: number;
-  companyId?: number 
+  userId: number;
+  companyId: number; 
+  rating: number;
+  content: string;
 }
 
 export default IReview;
