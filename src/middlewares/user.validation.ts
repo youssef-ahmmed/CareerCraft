@@ -8,4 +8,4 @@ export const validateLoginUser = validateReqBody(EntityValidation.login);
 
 export const validateUserEmailExistence = validateEmailExistence(UserDao.getUserByEmail);
 
-export const validateUpdateUserById = validateReqBody(UserValidation.updateUser);
+export const validateUpdateUserById = validateReqBody(EntityValidation.updateUser);
