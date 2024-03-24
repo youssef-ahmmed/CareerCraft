@@ -10,6 +10,15 @@ class UserDao {
     });
   }
 
+  static async applyUserForJob(userId: number, jobId: number) {
+    return prisma.jobUser.create({
+      data: {
+        userId,
+        jobId
+      }
+    });
+  }
+
   static async getUserByEmail(userEmail: string) {
     return prisma.users.findUnique({
       where: { email: userEmail },
@@ -34,10 +43,10 @@ class UserDao {
     });
   }
 
-  static async updateUserById(userId: number, updatedObject: Object) {
+  static async updateUserById(userId: number, updatedUserObject: object) {
     return prisma.users.update({
       where: { id: userId },
-      data: updatedObject,
+      data: updatedUserObject,
     });
   }
 

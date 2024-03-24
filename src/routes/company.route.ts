@@ -32,4 +32,7 @@ companyRouter
     ReviewController.getReviewsByCompanyId
   );
 
+companyRouter
+  .get('/:companyId/jobs', verifyToken, CompanyController.getJobsByCompanyId);
+
 export default companyRouter;

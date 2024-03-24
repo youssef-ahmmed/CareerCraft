@@ -12,26 +12,32 @@ class CompanyDao {
 
   static async getCompanyByEmail(companyEmail: string) {
     return prisma.companies.findUnique({
-      where: {email: companyEmail},
+      where: { email: companyEmail },
     });
   }
 
   static async getCompanyById(companyId: number) {
     return prisma.companies.findUnique({
-      where: {id: companyId},
+      where: { id: companyId },
     });
   }
 
-  static async updateCompanyById(comapanyId: number, updatedObject: object) {
+  static async getJobsByCompanyId(companyId: number) {
+    return prisma.jobs.findMany({
+      where: { companyId }
+    });
+  }
+
+  static async updateCompanyById(companyId: number, updatedObject: object) {
     return prisma.companies.update({
-      where: {id: comapanyId},
+      where: { id: companyId },
       data: updatedObject,
     });
   }
 
   static async deleteCompanyById(companyId: number) {
     return prisma.companies.delete({
-      where: {id: companyId},
+      where: { id: companyId },
     });
   }
 }

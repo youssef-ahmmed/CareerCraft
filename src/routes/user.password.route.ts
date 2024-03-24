@@ -8,15 +8,15 @@ import {
 } from '../middlewares/entity.password.validation';
 import { verifyToken } from "../middlewares/verify.token";
 
-const passwordRoute = Router();
+const userPasswordRouter = Router();
 
-passwordRoute
+userPasswordRouter
   .put('/change-password', verifyToken, changePasswordValidator, userPasswordController.changePassword);
 
-passwordRoute
+userPasswordRouter
   .post('/forget-password', forgetPasswordValidator, userPasswordController.forgetPassword);
 
-passwordRoute
+userPasswordRouter
   .post('/reset-password/:id/:token', resetPasswordValidator, userPasswordController.resetPassword);
 
-export default passwordRoute;
+export default userPasswordRouter;

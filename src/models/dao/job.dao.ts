@@ -1,5 +1,4 @@
 import prisma from './client.db';
-import IJob from "../../types/IJob";
 
 class JobDao {
   static async createJob(jobDto: any) {
@@ -8,25 +7,16 @@ class JobDao {
     });
   }
 
-  static async applyUserForJob(userId: number, jobId: number) {
-    return prisma.jobUser.create({
-      data: {
-        userId,
-        jobId
-      }
-    });
-  }
-
-  static async updateJobById(jobDto: any) {
+  static async updateJobById(jobId: number, updatedJobObject: object) {
     return prisma.jobs.update({
-      where: { id: jobDto.id },
-      data: jobDto,
+      where: { id: jobId },
+      data: updatedJobObject,
     });
   }
 
-  static async getJobById(jobDto: IJob) {
+  static async getJobById(jobId: number) {
     return prisma.jobs.findUnique({
-     where: { id: jobDto.id },
+     where: { id: jobId },
     });
   }
 
@@ -50,7 +40,7 @@ class JobDao {
     });
 
     const skillsList = userSkills.skills;
-    const skillsIds = skillsList.map(userSkill => userSkill.skillId);
+    const skillsIds: number[] = skillsList.map(userSkill => userSkill.skillId);
 
     return prisma.jobs.findMany({
       where: {
@@ -61,9 +51,6 @@ class JobDao {
             }
           }
         }
-      },
-      include: {
-        company: true,
       }
     });
   }
@@ -78,9 +65,6 @@ class JobDao {
             }
           }
         }
-      },
-      include: {
-        company: true
       }
     });
   }
@@ -97,7 +81,7 @@ class JobDao {
       }
     });
 
-    const skillIds = skillIdsObject.map(skill => skill.id);
+    const skillIds: number[] = skillIdsObject.map(skill => skill.id);
 
     return prisma.jobs.findMany({
       where: {
@@ -109,12 +93,6 @@ class JobDao {
           }
         }
       }
-    });
-  }
-
-  static async getJobsByCompanyId(companyId: number) {
-    return prisma.jobs.findMany({
-      where: { companyId }
     });
   }
 
