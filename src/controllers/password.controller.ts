@@ -21,7 +21,6 @@ abstract class PasswordController {
       const secret: string = process.env.TOKEN_SECRET + entity.password;
       const token: string = createEmailToken(entity, secret);
       const link: string = `${process.env.BASE_URL}/${this.getEntityType()}/reset-password/${entity.id}/${token}`;
-      console.log('link: ', link);
 
       await sendEmail(email, link);
 

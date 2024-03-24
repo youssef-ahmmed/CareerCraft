@@ -29,7 +29,6 @@ class UserController {
       res.status(200).json({ ...otherAttributes });
 
     } catch (err) {
-      console.error(err)
       return res.status(500).json({ message: 'Internal server error' });
     }
   }

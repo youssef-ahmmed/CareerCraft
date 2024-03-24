@@ -24,7 +24,6 @@ class SkillController {
 
       return res.status(201).json(createdSkills);
     } catch (err) {
-      console.error(err)
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -46,7 +45,6 @@ class SkillController {
       const skills = await SkillDao.getSkillsByUserId(userId);
       return res.status(200).json(skills);
     } catch (err) {
-      console.error(err)
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -106,7 +104,6 @@ class SkillController {
 
       return res.status(201).json(createdSkills);
     } catch (err) {
-      console.error(err)
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
