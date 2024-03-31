@@ -1,0 +1,9 @@
+description: Entered email is in an incorrect email format.
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Email must be a valid email

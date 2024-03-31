@@ -1,0 +1,9 @@
+description: User and Company not found
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Entity not found
