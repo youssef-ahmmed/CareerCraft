@@ -1,0 +1,36 @@
+tags:
+  - skill
+description: Get skills for a user.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: userId
+    description: Unique identifer for the user
+    schema:
+      type: Int
+responses:
+  200:
+    description: Get the skills successfully
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: Int
+                example: 1
+                description: Unique identifer for the created skill
+              name:
+                type: string
+                example: Programming
+                description: Name of the created skill.
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/entity.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'
