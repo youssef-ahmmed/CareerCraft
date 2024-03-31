@@ -3,16 +3,9 @@ import { Response } from 'express';
 import IExtendedRequest from '../types/IExtendedRequest';
 
 class CompanyController {
-
-  /**
-   * @desc    get company by Id or get company profile
-   * @route   /api/v1/companies/:companyId or /api/v1/companies/profile 
-   * @method  GET
-   * @access  private
-   */
   static getCompanyById = async (req: IExtendedRequest, res: Response) => {
     let companyId: number;
-   
+
     if (req.params.companyId !== 'profile') {
       companyId = parseInt(req.params.companyId, 10);
     } else {
@@ -45,13 +38,7 @@ class CompanyController {
     }
   }
 
-   /**
-   * @desc    update company profile
-   * @route   /api/v1/companies
-   * @method  PUT
-   * @access  private
-   */
-   static updateCompanyById = async (req: IExtendedRequest, res: Response) => {
+  static updateCompanyById = async (req: IExtendedRequest, res: Response) => {
     const companyId: number = parseInt(req.id, 10);
     const { email, name, industry, location, logo, description, websiteLink } = req.body;
 
@@ -71,12 +58,6 @@ class CompanyController {
     }
   }
 
-  /**
-   * @desc    delete company profile
-   * @route   /api/v1/companies
-   * @method  DELETE
-   * @access  private
-   */
   static deleteCompanyById = async (req: IExtendedRequest, res: Response) => {
     const companyId: number = parseInt(req.id, 10);
 

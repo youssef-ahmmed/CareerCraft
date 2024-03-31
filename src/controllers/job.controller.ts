@@ -5,7 +5,7 @@ import IExtendedRequest from "../types/IExtendedRequest";
 
 class JobController {
 
-  static createNewJob = async (req: IExtendedRequest, res: Response)=> {
+  static createNewJob = async (req: IExtendedRequest, res: Response) => {
     const jobDto: JobDto = new JobDto(req.body);
     const companyId: number = parseInt(req.id);
 

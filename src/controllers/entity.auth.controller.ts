@@ -12,7 +12,7 @@ abstract class EntityAuthController {
       const entity = await this.createEntity(entityDto);
       const token: string = createToken(entity.id);
 
-      const { password, ...otherAttributes} = entity;
+      const { password, ...otherAttributes } = entity;
 
       return res.status(201).json({ token, ...otherAttributes });
     } catch (err) {
@@ -35,7 +35,7 @@ abstract class EntityAuthController {
       }
 
       const token: string = createToken(entity.id);
-      const { password: entityPassword, ...otherAttributes} = entity;
+      const { password: entityPassword, ...otherAttributes } = entity;
 
       return res.status(201).json({ token, ...otherAttributes });
     } catch (err) {
