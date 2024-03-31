@@ -1,0 +1,31 @@
+tags:
+  - job
+description: Gets job by its Id.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: jobId
+    description: Unique identifer for the job.
+    required: true
+    schema:
+      type: Int
+responses:
+  200:
+    description: Get the job successfully.
+    $ref: '../../common/skill.object.yaml'
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found job or company.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Job not found
+  500:
+    $ref: '../../common/server.error.yaml'

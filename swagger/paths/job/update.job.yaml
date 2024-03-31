@@ -1,0 +1,71 @@
+tags:
+  - job
+description: Gets job by its Id.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: jobId
+    description: Unique identifer for the job.
+    required: true
+    schema:
+      type: Int
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          title:
+            type: string
+            example: "Software Engineer"
+            description: Title of the job.
+          description:
+            type: string
+            example: "Seeking a skilled software engineer to join our dynamic team."
+            description: Description of the job role.
+          location:
+            type: string
+            example: REMOTE
+            description: Location type for the job (REMOTE, OFFLINE, HYBRID).
+          type:
+            type: string
+            example: FULL_TIME
+            description: Type of employment for the job (FULL_TIME, PART_TIME, INTERNSHIP).
+          salary:
+            type: integer
+            example: 80000
+            description: Salary offered for the job.
+          status:
+            type: boolean
+            example: true
+            description: Status of the job.
+          applicationLink:
+            type: string
+            example: "https://example.com/apply"
+            description: Link to apply for the job.
+          applicantNumbers:
+            type: integer
+            example: 10
+            description: Number of applicants for the job.
+responses:
+  201:
+    description: Job is updated successfully.
+    $ref: '../../common/skill.object.yaml'
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found job or company.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Job not found
+  500:
+    $ref: '../../common/server.error.yaml'
+  

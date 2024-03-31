@@ -1,0 +1,89 @@
+tags:
+  - job
+description: Create a new job by company
+security:
+  - BearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - title
+          - description
+          - location
+          - type
+          - salary
+          - companyId
+          - skills
+        properties:
+          title:
+            type: string
+            example: "Software Engineer"
+            description: Title of the job.
+          description:
+            type: string
+            example: "Seeking a skilled software engineer to join our dynamic team."
+            description: Description of the job role.
+          location:
+            type: string
+            enum:
+              - REMOTE
+              - OFFLINE
+              - HYBRID
+            example: REMOTE
+            description: Location type for the job (REMOTE, OFFLINE, HYBRID).
+          type:
+            type: string
+            enum:
+              - FULL_TIME
+              - PART_TIME
+              - INTERNSHIP
+            example: FULL_TIME
+            description: Type of employment for the job (FULL_TIME, PART_TIME, INTERNSHIP).
+          salary:
+            type: integer
+            example: 80000
+            description: Salary offered for the job.
+          status:
+            type: boolean
+            example: true
+            description: Status of the job.
+          applicationLink:
+            type: string
+            example: "https://example.com/apply"
+            description: Link to apply for the job.
+          applicantNumbers:
+            type: integer
+            example: 10
+            description: Number of applicants for the job.
+          skills:
+            type: array
+            items:
+              type: string
+              format: string
+              example: "Programming"
+              description: Skill required for the job position.
+            minItems: 1
+responses:
+  201:
+    description: Response when a company is successfully created a job.
+    $ref: '../../common/skill.object.yaml'
+  400:
+    description: Bad Request - Validation Error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: title is required
+              description: Detailed error message describing the validation errors.
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/company.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'
