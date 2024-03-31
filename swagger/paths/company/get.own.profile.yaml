@@ -1,0 +1,64 @@
+tags:
+  - company
+security:
+  - BearerAuth: []
+description: Company get its own profile.
+responses:
+  200:
+    description: Successfully return the company profile.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 1
+            email:
+              type: string
+              description: Email of the company (must be unique).
+              example: company@example.com
+            password:
+              type: string
+              description: Password of the company.
+              example: mysecretpassword
+            name:
+              type: string
+              description: Company name.
+              example: ALX
+            industry:
+              type: string
+              description: Field of the company's work.
+              example: Tech
+            location:
+              type: string
+              description: Location of the company.
+              example: Egypt, Cairo
+            logo:
+              type: string
+              description: File name of the company logo.
+              example: companyLogo.png
+            description:
+              type: string
+              nullable: true
+              maxLength: 1024
+              description: Brief overview of the company's role.
+              example: Leading provider of innovative tech solutions.
+            websiteLink:
+              type: string
+              description: URL to the company website
+              example: http://ALX.com
+            createdAt:
+              type: string
+              format: date-time
+              example: "2024-03-27T12:00:00Z"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2024-03-27T12:00:00Z"
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/company.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

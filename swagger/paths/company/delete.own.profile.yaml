@@ -1,0 +1,22 @@
+tags:
+  - company
+security:
+  - BearerAuth: []
+description: Company deletes its own profile.
+responses:
+  200:
+    description: Company profile successfully deleted.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Company deleted successfully
+    401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/company.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

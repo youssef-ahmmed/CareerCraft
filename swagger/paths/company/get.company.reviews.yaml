@@ -1,0 +1,57 @@
+tags:
+  - company
+security:
+  - BearerAuth: []
+description: Company get its own profile.
+parameters:
+  -
+    in: path
+    name: companyId
+    description: Id of the company to get its reviews
+    required: true
+    schema:
+      type: number
+responses:
+  200:
+    description: Successfully return reviews of a specific company.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: Int
+              example: 1
+              description: Unique identifier for the review.
+            rating:
+              type: Int
+              example: 1
+              description: Rating given to the company.
+            content:
+              type: String
+              example: "Great company with excellent services."
+              description: Content of the review with a maximum length of 1024 characters.
+            userId:
+              type: Int
+              example: 123
+              description: Foreign key referencing the id of the user who created the review.
+            companyId:
+              type: Int
+              example: 456
+              description: Foreign key referencing the id of the company being reviewed.
+            createdAt:
+              type: DateTime
+              example: "2024-03-28T10:15:00Z"
+              description: Date and time when the review was created, automatically set to the current timestamp upon creation.
+            updatedAt:
+              type: DateTime
+              example: "2024-03-28T10:20:00Z"
+              description: Date and time when the review was last updated.
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/entity.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'
+
+            

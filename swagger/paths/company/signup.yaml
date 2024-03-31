@@ -1,0 +1,71 @@
+tags:
+  - company
+description: Create a new company and generate a token 
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+          - name
+          - industry
+          - location
+          - logo
+          - description
+          - websiteLink
+        properties:
+          email:
+            type: string
+            description: Email of the company (must be unique).
+            example: company@example.com
+          password:
+            type: string
+            description: Password of the company.
+            example: mysecretpassword
+          name:
+            type: string
+            description: Company name.
+            example: ALX
+          industry:
+            type: string
+            description: Field of the company's work.
+            example: Tech
+          location:
+            type: string
+            description: Location of the company.
+            example: Egypt, Cairo
+          logo:
+            type: string
+            description: File name of the company logo.
+            example: companyLogo.png
+          description:
+            type: string
+            nullable: true
+            maxLength: 1024
+            description: Brief overview of the company's role.
+            example: Leading provider of innovative tech solutions.
+          websiteLink:
+            type: string
+            description: URL to the company website
+            example: http://ALX.com
+responses:
+  201:
+    description: Response when a company is successfully created.
+    $ref: '../../common/company.object.yaml'
+  400:
+    $ref: '../../common/email.failed.validation.yaml'
+  409:
+    description: Error response when the provided email is already in use.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Email already in use
+  500:
+    $ref: '../../common/server.error.yaml'
