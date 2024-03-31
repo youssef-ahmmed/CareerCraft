@@ -1,0 +1,125 @@
+# User routes
+/api/v1/users/signup:
+  post:
+    $ref: './user/signup.yaml'
+
+/api/v1/users/login:
+  post:
+    $ref: './user/login.yaml'
+
+/api/v1/users/forget-password:
+  post:
+    $ref: './user/forget-password.yaml'
+
+/api/v1/users/reset-password/{id}/{token}:
+  put:
+    $ref: './user/reset-password.yaml'
+
+/api/v1/users/change-password:
+  put:
+    $ref: './user/change-password.yaml'
+
+/api/v1/users/{userId}:
+  get:
+    $ref: './user/get.profile.yaml'
+
+/api/v1/users/profile:
+  get:
+    $ref: './user/get.own.profile.yaml'
+  put:
+    $ref: './user/update.own.profile.yaml'
+  delete:
+    $ref: './user/delete.own.profile.yaml'
+
+/api/v1/users/jobs/{jobId}:
+  post:
+    $ref: './user/user.apply.for.job.yaml'
+
+# company routes
+/api/v1/companies/signup:
+  post:
+    $ref: './company/signup.yaml'
+
+/api/v1/companies/login:
+  post:
+    $ref: './company/login.yaml'
+
+/api/v1/companies/forget-password:
+  post:
+    $ref: './company/forget-password.yaml'
+
+/api/v1/companies/reset-password/{id}/{token}:
+  put:
+    $ref: './company/reset-password.yaml'
+
+/api/v1/companies/change-password:
+  put:
+    $ref: './company/change-password.yaml'
+
+/api/v1/companies/{companyId}:
+  get:
+    $ref: './company/get.profile.yaml'
+
+/api/v1/companies/profile:
+  get:
+    $ref: './company/get.own.profile.yaml'
+  put:
+    $ref: './company/update.own.profile.yaml'
+  delete:
+    $ref: './company/delete.own.profile.yaml'
+
+/api/v1/companies/{companyId}/reviews:
+  get:
+   $ref: './company/get.company.reviews.yaml'
+
+/api/v1/companies/{companyId}/jobs:
+  get:
+   $ref: './company/get.company.jobs.yaml'
+  
+# job routes
+/api/v1/jobs:
+  post:
+    $ref: './job/create.job.yaml'
+
+/api/v1/jobs/{jobId}:
+  get:
+    $ref: './job/get.job.yaml'
+  put:
+    $ref: './job/update.job.yaml'
+  delete:
+    $ref: './job/delete.job.yaml'
+
+# review routes
+/api/v1/reviews:
+  post:
+    $ref: './review/create.review.yaml'
+
+/api/v1/reviews/{reviewId}:
+  get:
+    $ref: './review/get.review.yaml'
+  put:
+    $ref: './review/update.review.yaml'
+  delete:
+    $ref: './review/delete.review.yaml'
+
+
+# skills routes
+/api/v1/users/{userId}/skills:
+  get:
+    $ref: './skill/get.user.skills.yaml'
+
+/api/v1/users/skills:
+  post:
+    $ref: './skill/create.user.skills.yaml'
+
+/api/v1/jobs/{jobId]/skills:
+  post:
+    $ref: './skill/create.job.skills.yaml'
+
+/api/v1/users/skills/{skillId}:
+  delete:
+    $ref: './skill/delete.user.skill.yaml'
+
+/api/v1/jobs/{jobId}/skills/{skillId}:
+  delete:
+    $ref: './skill/delete.job.skill.yaml'

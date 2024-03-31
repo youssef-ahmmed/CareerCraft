@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: CareerCraft API
+  description: API Documentation for CareerCraft, a job board platform, providing developers with essential information for integrating their applications seamlessly.
+  contact:
+    name: Salma Hussien
+    email: salmaa.hussien1@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+host: localhost:500
+basePath: /api/v1
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: Bearer token authentication
+tags:
+  - name: user
+    description: Everything about user routes
+  - name: company
+    description: Everything about company routes
+  - name: job
+    description: Everything about job routes
+  - name: skill
+    description: Everything about skill routes
+  - name: review
+    description: Everything about review routes
+  - name: notification
+    description: Everything about notification routes
+paths:
+  $ref: './paths/index.yaml'
