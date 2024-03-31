@@ -1,0 +1,59 @@
+tags:
+  - user
+security:
+  - BearerAuth: []
+description: Gets the user's profile using user Id.
+parameters:
+  -
+    in: path
+    name: userId
+    description: User Id which  want to get his profile
+    required: true
+    schema:
+      type: number
+responses:
+  200:
+    description: Successfully return the user profile.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 1
+            email:
+              type: string
+              example: user@example.com
+            firstName:
+              type: string
+              example: John
+            lastName:
+              type: string
+              example: Doe
+            photo:
+              type: string
+              nullable: true
+              example: photo.jpg
+            bio:
+              type: string
+              nullable: true
+              maxLength: 1024
+              example: A passionate software engineer
+            resumeLink:
+              type: string
+              example: http://example.com/resume.pdf
+            createdAt:
+              type: string
+              format: date-time
+              example: "2024-03-27T12:00:00Z"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2024-03-27T12:00:00Z"
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/user.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

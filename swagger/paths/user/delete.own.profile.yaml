@@ -1,0 +1,22 @@
+tags:
+  - user
+security:
+    - BearerAuth: []
+description: User deletes his own profile.
+responses:
+  200:
+    description: User profile successfully deleted.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: User deleted successfully
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    $ref: '../../common/user.not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'
