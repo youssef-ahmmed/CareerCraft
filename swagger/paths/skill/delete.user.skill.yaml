@@ -35,13 +35,6 @@ responses:
               example: Permission denied
   404:
     description: Not found user or skill.
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: Not found
+    $ref: '../../common/not.found.yaml'
   500:
     $ref: '../../common/server.error.yaml'

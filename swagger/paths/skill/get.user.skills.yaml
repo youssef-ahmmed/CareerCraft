@@ -31,6 +31,7 @@ responses:
   401:
     $ref: '../../common/unauthorized.yaml'
   404:
-    $ref: '../../common/entity.not.found.yaml'
+    description: Not found user or company
+    $ref: '../../common/not.found.yaml'
   500:
     $ref: '../../common/server.error.yaml'

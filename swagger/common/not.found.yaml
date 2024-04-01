@@ -1,4 +1,3 @@
-description: User and Company not found
 content:
   application/json:
     schema:
@@ -6,4 +5,4 @@ content:
       properties:
         message:
           type: string
-          example: Entity not found
+          example: Not found

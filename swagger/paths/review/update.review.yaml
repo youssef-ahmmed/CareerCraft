@@ -63,13 +63,6 @@ responses:
     $ref: '../../common/unauthorized.yaml'
   404:
     description: Not found review or user or company.
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: Review not found
+    $ref: '../../common/not.found.yaml'
   500:
     $ref: '../../common/server.error.yaml'
