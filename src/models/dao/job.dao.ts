@@ -95,12 +95,6 @@ class JobDao {
       }
     });
   }
-
-  static async getJobByNotificationId(notificationId: number) {
-    return prisma.jobs.findUnique({
-      where: { notificationId }
-    });
-  }
 }
 
 export default JobDao;

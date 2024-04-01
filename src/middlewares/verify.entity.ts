@@ -13,7 +13,7 @@ export const verifyEntityExistance = async (
   const user = await UserDao.getUserById(id);
   const company = await CompanyDao.getCompanyById(id)
   if (!user && company) {
-    return res.status(404).json({ message: 'Not Found' });
+    return res.status(404).json({ message: 'Not found' });
   }
 
   return next();
@@ -28,7 +28,7 @@ export const verifyUserExistance = async (
 
   const user = await UserDao.getUserById(userId);
   if (!user) {
-    return res.status(404).json({ message: 'Not Found' });
+    return res.status(404).json({ message: 'Not found' });
   }
 
   return next();
@@ -43,7 +43,7 @@ export const verifyCompanyExistance = async (
 
   const company = await CompanyDao.getCompanyById(companyId);
   if (!company) {
-    return res.status(404).json({ message: 'Not Found' });
+    return res.status(404).json({ message: 'Not found' });
   }
 
   return next();

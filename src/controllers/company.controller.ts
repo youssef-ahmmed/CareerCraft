@@ -22,7 +22,7 @@ class CompanyController {
     try {
       const company = await CompanyDao.getCompanyById(companyId);
       if (!company) {
-        return res.status(404).json({ message: 'Company not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const { password, ...otherAttributes } = company;
@@ -60,7 +60,7 @@ class CompanyController {
     try {
       const updatedCompany = await CompanyDao.updateCompanyById(companyId, companyToBeUpdated);
       if (!updatedCompany) {
-        return res.status(404).json({ message: 'Company not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const { password, ...otherAttributes } = updatedCompany;
@@ -83,7 +83,7 @@ class CompanyController {
     try {
       const deletedCompany = await CompanyDao.deleteCompanyById(companyId);
       if (!deletedCompany) {
-        return res.status(404).json({ message: 'Company not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       return res.status(200).json({ message: 'Company deleted successfully' });

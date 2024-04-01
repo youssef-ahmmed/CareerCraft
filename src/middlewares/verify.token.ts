@@ -6,7 +6,7 @@ export const verifyToken = (
   req: IExtendedRequest,
   res: Response,
   next: NextFunction
-  ) => {
+) => {
 
   const bearer: string = req.headers.authorization;
 
