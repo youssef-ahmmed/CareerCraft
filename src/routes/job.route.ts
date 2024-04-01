@@ -6,17 +6,43 @@ import {
   validateGetJobsBySkillsName,
   validateUpdateSpecificJob
 } from "../middlewares/job.validator";
+import { verifyCompanyExistance, verifyEntityExistance, verifyUserExistance } from '../middlewares/verify.entity';
 
 const jobRoute = Router();
 
 jobRoute
-  .post('/', verifyToken, validateCreateNewJob, JobController.createNewJob);
+  .post('/',
+    verifyToken,
+    verifyCompanyExistance,
+    validateCreateNewJob,
+    JobController.createNewJob
+  );
 
 jobRoute
-  .get('/:jobId', verifyToken, JobController.getSpecificJobById)
-  .get('/', verifyToken, validateGetJobsBySkillsName, JobController.getJobsBySkillsName)
-  .get('/matched-skills/users/:userId', verifyToken, JobController.getJobsMatchedUserSkills)
-  .get('/applied/users/:userId', verifyToken, JobController.getJobsAppliedByUserId);
+  .get('/by-skills',
+    verifyToken,
+    verifyEntityExistance,
+    validateGetJobsBySkillsName,
+    JobController.getJobsBySkillsName
+  );
+jobRoute
+  .get('/matched-skills',
+    verifyToken,
+    verifyUserExistance,
+    JobController.getJobsMatchedUserSkills
+  );
+jobRoute
+  .get('/applied',
+    verifyToken,
+    verifyUserExistance,
+    JobController.getJobsAppliedByUserId
+  );
+jobRoute
+  .get('/:jobId',
+    verifyToken,
+    verifyEntityExistance,
+    JobController.getSpecificJobById
+  );
 
 jobRoute
   .put('/:jobId', verifyToken, validateUpdateSpecificJob, JobController.updateSpecificJobById);
