@@ -89,6 +89,18 @@
   delete:
     $ref: './job/delete.job.yaml'
 
+/api/v1/jobs/by-skills:
+  get:
+    $ref: './job/get.jobs.by.skills.yaml'
+
+/api/v1/jobs/matched-skills:
+  get:
+    $ref: './job/get.matched.jobs.yaml'
+
+/api/v1/jobs/applied:
+  get:
+    $ref: './job/get.applied.jobs.yaml'
+
 # review routes
 /api/v1/reviews:
   post:

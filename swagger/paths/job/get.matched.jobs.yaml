@@ -1,0 +1,16 @@
+tags:
+  - job
+description: Retrieve jobs based on skills that match user skills.
+security:
+  - BearerAuth: []
+responses:
+  200:
+    Description: Successfully retrieve a list of matched jobs.
+    $ref: '../../common/jobs.list.yaml'
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found user.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'
