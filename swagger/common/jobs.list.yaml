@@ -1,0 +1,55 @@
+content:
+  application/json:
+    schema:
+      type: array
+      items: 
+        type: object
+        properties:
+          id:
+            type: Int
+            example: 1
+            description: Unique identifier for the job posting.
+          title:
+            type: String
+            example: "Software Engineer"
+            description: Title of the job position.
+          description:
+            type: String
+            example: "Seeking a skilled software engineer to join our dynamic team."
+            description: Description of the job role. Limited to a maximum of 1024 characters.
+          location:
+            type: JobLocation
+            example: REMOTE
+            description: Location type for the job position (REMOTE, OFFLINE, HYBRID).
+          type:
+            type: JobType
+            example: FULL_TIME
+            description: Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP).
+          salary:
+            type: Int
+            example: 80000
+            description: Salary offered for the job position.
+          status:
+            type: Boolean
+            example: true
+            description: Current status of the job posting.
+          applicationLink:
+            type: String
+            example: "https://example.com/apply"
+            description: Link to apply for the job position.
+          applicantNumbers:
+            type: Int
+            example: 10
+            description: Number of applicants who have applied for the job position.
+          companyId:
+            type: Int
+            example: 123
+            description: ID of the company offering the job position.
+          createdAt:
+            type: DateTime
+            example: "2024-03-28T10:00:00Z"
+            description: Date and time when the job posting was created.
+          updatedAt:
+            type: DateTime
+            example: "2024-03-28T10:05:00Z"
+            description: Date and time when the job posting was last updated.
