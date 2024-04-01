@@ -18,8 +18,8 @@ class JobController {
     }
   }
 
-  static getJobsBySkillsName = async (req: Request, res: Response) => {
-    const skills: string[] = req.body.skills;
+  static getJobsBySkillsName = async (req: IExtendedRequest, res: Response) => {
+    const { skills } = req;
 
     try {
       const jobs = await JobDao.getJobsBySkillsNames(skills);
