@@ -5,14 +5,16 @@ import IExtendedRequest from "../types/IExtendedRequest";
 
 class JobController {
 
-  static createNewJob = async (req: IExtendedRequest, res: Response)=> {
+  static createNewJob = async (req: IExtendedRequest, res: Response) => {
     const jobDto: JobDto = new JobDto(req.body);
     const companyId: number = parseInt(req.id);
+    const skillsNames = req.body.skills;
 
     try {
       const job = await JobDao.createJob({ ...jobDto, companyId });
+      const skills = await SkillDao.createSkillsByJob(skillsNames, job.id);
 
-      return res.status(201).json(job);
+      return res.status(201).json({ ...job, skills });
     } catch (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
