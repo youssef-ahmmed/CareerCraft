@@ -47,14 +47,16 @@ class JobController {
   }
 
   static updateSpecificJobById = async (req: IExtendedRequest, res: Response) => {
-    const jobId: number = parseInt(req.params.jobId);
+    const jobId: number = parseInt(req.params.jobId, 10);
     const jobDto: JobDto = new JobDto(req.body);
-    const companyId: number = parseInt(req.id);
+    const companyId: number = parseInt(req.id, 10);
 
     try {
       const job = await JobDao.getJobById(jobId);
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
+      if (companyId !== job.companyId) {
+        return res.status(403).json({ message: 'Permission Denied' });
       }
 
       const updatedJob = await JobDao.updateJobById(jobId, { ...jobDto, companyId });
@@ -65,13 +67,16 @@ class JobController {
     }
   }
 
-  static deleteSpecificJobById = async (req: Request, res: Response) => {
-    const jobId: number = parseInt(req.params.jobId);
+  static deleteSpecificJobById = async (req: IExtendedRequest, res: Response) => {
+    const jobId: number = parseInt(req.params.jobId, 10);
+    const companyId: number = parseInt(req.id, 10);
 
     try {
       const job = await JobDao.getJobById(jobId);
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
+      if (companyId !== job.companyId) {
+        return res.status(403).json({ message: 'Permission Denied' });
       }
 
       await JobDao.deleteJobById(jobId);
