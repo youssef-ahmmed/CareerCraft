@@ -29,7 +29,7 @@ class UserController {
     try {
       const user = await UserDao.getUserById(userId);
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const { password, ...otherAttributes } = user;
@@ -50,7 +50,7 @@ class UserController {
     try {
       const updatedUser = await UserDao.updateUserById(userId, userToBeUpdated);
       if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const { password, ...otherAttributes } = updatedUser;
@@ -67,7 +67,7 @@ class UserController {
     try {
       const deletedUser = await UserDao.deleteUserById(userId);
       if (!deletedUser) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       return res.status(200).json({ message: 'User deleted successfully' });

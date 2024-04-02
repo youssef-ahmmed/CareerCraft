@@ -26,7 +26,7 @@ class SkillController {
       const userId: number = parseInt(req.params.userId, 10);
       const user = await UserDao.getUserById(userId);
       if (!user) {
-        return res.status(404).json({ message: 'User Not Found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       const skills = await SkillDao.getSkillsByUserId(userId);

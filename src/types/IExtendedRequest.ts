@@ -3,6 +3,7 @@ import { File } from 'multer';
 
 interface IExtendedRequest extends Request {
   id?: string;
+  skills?: string[];
   file: File;
 }
 

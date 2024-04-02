@@ -11,7 +11,7 @@ class ReviewController {
 
       const company = await CompanyDao.getCompanyById(reviewDto.companyId);
       if (!company) {
-        return res.status(400).json({ message: 'Company Not Found' });
+        return res.status(400).json({ message: 'Not found' });
       }
 
       const review = await ReviewDao.createReview(reviewDto);
@@ -41,7 +41,7 @@ class ReviewController {
       const companyId: number = parseInt(req.params.companyId, 10);
       const company = await CompanyDao.getCompanyById(companyId);
       if (!company) {
-        return res.status(400).json({ message: 'Company Not Found' });
+        return res.status(400).json({ message: 'Not found' });
       }
 
       const reviews = await ReviewDao.getReviewsByCompanyId(companyId);
@@ -58,7 +58,7 @@ class ReviewController {
     try {
       const review = await ReviewDao.getReviewById(reviewId);
       if (!review) {
-        return res.status(404).json({ message: 'Not Found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       if (userId !== review.userId) {
@@ -82,7 +82,7 @@ class ReviewController {
     try {
       const review = await ReviewDao.getReviewById(reviewId);
       if (!review) {
-        return res.status(404).json({ message: 'Not Found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       if (userId !== review.userId) {

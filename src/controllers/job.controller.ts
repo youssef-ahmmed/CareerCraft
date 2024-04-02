@@ -2,24 +2,27 @@ import { Request, Response } from "express";
 import JobDto from "../models/dto/job.dto";
 import JobDao from "../models/dao/job.dao";
 import IExtendedRequest from "../types/IExtendedRequest";
+import SkillDao from "../models/dao/skill.dao";
 
 class JobController {
 
   static createNewJob = async (req: IExtendedRequest, res: Response) => {
     const jobDto: JobDto = new JobDto(req.body);
     const companyId: number = parseInt(req.id);
+    const skillsNames = req.body.skills;
 
     try {
       const job = await JobDao.createJob({ ...jobDto, companyId });
+      const skills = await SkillDao.createSkillsByJob(skillsNames, job.id);
 
-      return res.status(201).json(job);
+      return res.status(201).json({ ...job, skills });
     } catch (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 
-  static getJobsBySkillsName = async (req: Request, res: Response) => {
-    const skills: string[] = req.body.skills;
+  static getJobsBySkillsName = async (req: IExtendedRequest, res: Response) => {
+    const { skills } = req;
 
     try {
       const jobs = await JobDao.getJobsBySkillsNames(skills);
@@ -37,7 +40,7 @@ class JobController {
       const job = await JobDao.getJobById(parseInt(jobId));
 
       if (!job) {
-        return res.status(404).json({ message: 'Job not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
       return res.status(200).json(job);
@@ -47,17 +50,21 @@ class JobController {
   }
 
   static updateSpecificJobById = async (req: IExtendedRequest, res: Response) => {
-    const jobId: number = parseInt(req.params.jobId);
+    const jobId: number = parseInt(req.params.jobId, 10);
     const jobDto: JobDto = new JobDto(req.body);
-    const companyId: number = parseInt(req.id);
+    const companyId: number = parseInt(req.id, 10);
 
     try {
       const job = await JobDao.getJobById(jobId);
       if (!job) {
-        return res.status(404).json({ message: 'Job not found' });
+        return res.status(404).json({ message: 'Not found' });
       }
 
-      const updatedJob = await JobDao.updateJobById(jobId, { ...jobDto, companyId });
+      if (companyId !== job.companyId) {
+        return res.status(403).json({ message: 'Permission Denied' });
+      }
+
+      const updatedJob = await JobDao.updateJobById(jobId, jobDto);
 
       return res.status(201).json(updatedJob);
     } catch (err) {
@@ -65,13 +72,18 @@ class JobController {
     }
   }
 
-  static deleteSpecificJobById = async (req: Request, res: Response) => {
-    const jobId: number = parseInt(req.params.jobId);
+  static deleteSpecificJobById = async (req: IExtendedRequest, res: Response) => {
+    const jobId: number = parseInt(req.params.jobId, 10);
+    const companyId: number = parseInt(req.id, 10);
 
     try {
       const job = await JobDao.getJobById(jobId);
       if (!job) {
-        return res.status(404).json({ message: 'Job not found' });
+        return res.status(404).json({ message: 'Not found' });
+      }
+
+      if (companyId !== job.companyId) {
+        return res.status(403).json({ message: 'Permission Denied' });
       }
 
       await JobDao.deleteJobById(jobId);
@@ -81,8 +93,8 @@ class JobController {
     }
   }
 
-  static getJobsMatchedUserSkills = async (req: Request, res: Response) => {
-    const userId: number = parseInt(req.params.userId);
+  static getJobsMatchedUserSkills = async (req: IExtendedRequest, res: Response) => {
+    const userId: number = parseInt(req.id, 10);
 
     try {
       const jobs = await JobDao.getJobsMatchedUserSkills(userId);
@@ -93,10 +105,9 @@ class JobController {
     }
   }
 
-  static getJobsAppliedByUserId = async (req: Request, res: Response) => {
-    const userId: number = parseInt(req.params.userId);
-
+  static getJobsAppliedByUserId = async (req: IExtendedRequest, res: Response) => {
     try {
+      const userId: number = parseInt(req.id, 10);
       const jobs = await JobDao.getAppliedJobsByUserId(userId);
 
       return res.status(200).json(jobs);

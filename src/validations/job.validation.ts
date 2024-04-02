@@ -1,5 +1,6 @@
 import { Request } from "express";
 import joi from "joi";
+import IExtendedRequest from "../types/IExtendedRequest";
 
 class JobValidation {
   private static readonly jobLocationOptions: string[] = ['REMOTE', 'OFFLINE', 'HYBRID'];
@@ -15,7 +16,6 @@ class JobValidation {
       status: joi.boolean().default(true),
       applicationLink: joi.string().trim().uri().required(),
       applicantNumbers: joi.number().integer().required(),
-      notificationId: joi.number().integer().optional(),
       skills: joi.array().items(joi.string().trim().required()).min(1).required(),
     });
 
@@ -32,19 +32,20 @@ class JobValidation {
       status: joi.boolean().default(true),
       applicationLink: joi.string().trim().uri(),
       applicantNumbers: joi.number().integer(),
-      notificationId: joi.number().integer().optional(),
       skills: joi.array().items(joi.string().trim().required()).min(1),
     });
 
     return schema.validate(requestBody);
   }
 
-  static getJobBySkills (requestBody: Request) {
+  static getJobBySkills (requestBody: IExtendedRequest) {
     const schema = joi.object({
       skills: joi.array().items(joi.string().trim().required()).min(1).required(),
     });
 
-    return schema.validate(requestBody);
+    const { skills } = requestBody;
+
+    return schema.validate({ skills });
   }
 }
 
