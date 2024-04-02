@@ -89,3 +89,27 @@ Companies can post job applications and track their job postings using the appro
 ### Password Management
 
 Users and companies can change their passwords or reset them if forgotten using the respective endpoints provided in the API documentation.
+
+## Contributing
+
+Contributions are welcome to CareerCraft!
+
+### How to Contribute
+
+1. Fork the Repository
+2. Clone the Forked Repository 
+3. Create a Branch 
+4. Commit your Changes
+5. Push Changes to the Branch
+6. Create Pull Request
+
+## AUTHORS
+### Salma Hussien
+- [GitHub](https://github.com/Sallmahussien)
+- [Linkedin](https://www.linkedin.com/in/salma-ahmed-a13706218/)
+- [Twitter](https://twitter.com/Sallmaahussien)
+
+### Yousef Ahmed
+- [GitHub](https://github.com/youssef-ahmmed)
+- [Linkedin](https://www.linkedin.com/in/youssef-ahmmed29)
+- [Twitter](https://twitter.com/jooahmmed)
