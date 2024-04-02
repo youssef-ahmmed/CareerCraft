@@ -1,0 +1,32 @@
+tags:
+  - skill
+description: Delete a specific skill by user.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: skillId
+    description: Unique identifer for the skill.
+    schema:
+      type: Int
+responses:
+  200:
+    description: Skill is deleted successfully.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Skill deleted successfully
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  403:
+    $ref: '../../common/permission.denied.yaml'
+  404:
+    description: Not found user or skill.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

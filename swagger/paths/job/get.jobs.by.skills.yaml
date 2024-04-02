@@ -1,0 +1,23 @@
+tags:
+  - job
+description: Retrieve jobs based on the provided skill names in the query parameters.
+security:
+  - BearerAuth: []
+parameters:
+  - in: query
+    name: skills
+    description: Plus-separated list of skill names.
+    schema:
+      type: string
+    example: JavaScript+HTML+CSS
+responses:
+  200:
+    description: Retrieve a list of jobs related to the provided skills.
+    $ref: '../../common/jobs.list.yaml'
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found job or company or user.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

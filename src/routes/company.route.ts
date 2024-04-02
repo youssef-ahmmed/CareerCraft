@@ -15,10 +15,10 @@ companyRouter
   .get('/profile', verifyToken, CompanyController.getCompanyById);
 
 companyRouter
-  .delete('/', verifyToken, CompanyController.deleteCompanyById);
+  .delete('/profile', verifyToken, CompanyController.deleteCompanyById);
 
 companyRouter
-  .put('/', 
+  .put('/profile', 
     uploadImage.single('logo'),
     verifyToken,
     validateUpdateCompanyById,
@@ -33,6 +33,10 @@ companyRouter
   );
 
 companyRouter
-  .get('/:companyId/jobs', verifyToken, CompanyController.getJobsByCompanyId);
+  .get('/:companyId/jobs',
+    verifyToken,
+    verifyEntityExistance,
+    CompanyController.getJobsByCompanyId
+  );
 
 export default companyRouter;

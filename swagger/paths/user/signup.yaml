@@ -1,0 +1,65 @@
+tags:
+  - user
+description: Create a new user and generate a token 
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+          - firstName
+          - lastName
+          - resumeLink
+        properties:
+          email:
+            type: string
+            description: Email of the user (must be unique).
+            example: user@example.com
+          password:
+            type: string
+            description: Password of the user.
+            example: mysecretpassword
+          firstName:
+            type: string
+            description: First name of the user.
+            example: John
+          lastName:
+            type: string
+            description: Last name of the user.
+            example: Doe
+          photo:
+            type: string
+            nullable: true
+            description: File name of the Photo (optional).
+            example: photo.png
+          bio:
+            type: string
+            nullable: true
+            maxLength: 1024
+            description: Biography of the user (optional).
+            example: A passionate software engineer.
+          resumeLink:
+            type: string
+            description: URL to the user's resume.
+            example: http://example.com/resume.pdf
+responses:
+  201:
+    description: Response when a user is successfully created.
+    $ref: '../../common/user.object.yaml'
+  400:
+    $ref: '../../common/email.failed.validation.yaml'
+  409:
+    description: Error response when the provided email is already in use.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Email already in use
+  500:
+    $ref: '../../common/server.error.yaml'

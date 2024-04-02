@@ -1,0 +1,51 @@
+tags:
+  - review
+description: Get review by Id.
+security:
+  - BearerAuth: []
+paramters:
+  -
+    in: path
+    name: reviewId
+    description: Unique identifer for the review
+    schema:
+      type: Int
+responses:
+  201:
+    description: Review is found successfully.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: Int
+              description: Unique identifier for the review.
+            companyId:
+              type: Int
+              description: ID of the company for which the review was created.
+            userId:
+              type: Int
+              description: ID of the user who created the review.
+            rating:
+              type: number
+              minimum: 1
+              maximum: 5
+              description: Rating given to the company (must be between 1 and 5).
+            content:
+              type: string
+              minLength: 10
+              description: Content of the review (must be at least 10 characters long).
+        example:
+          id: 1
+          companyId: 123
+          userId: 456
+          rating: 5
+          content: Great company with excellent services.
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found review or user or company.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

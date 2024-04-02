@@ -4,7 +4,6 @@ import IExtendedRequest from '../types/IExtendedRequest';
 import JobDao from "../models/dao/job.dao";
 
 class UserController {
-
   static applyUserForJob = async (req: IExtendedRequest, res: Response) => {
     const jobId: number = parseInt(req.params.jobId);
     const userId = parseInt(req.id);
@@ -18,15 +17,9 @@ class UserController {
     }
   }
 
-  /**
-   * @desc    get user by Id or get user profile
-   * @route   /api/v1/users/:userId or /api/v1/users/profile 
-   * @method  GET
-   * @access  private
-   */
   static getUserById = async (req: IExtendedRequest, res: Response) => {
     let userId: number;
-   
+
     if (req.params.userId !== 'profile') {
       userId = parseInt(req.params.userId, 10);
     } else {
@@ -48,12 +41,6 @@ class UserController {
     }
   }
 
-  /**
-   * @desc    update user profile
-   * @route   /api/v1/users
-   * @method  PUT
-   * @access  private
-   */
   static updateUserById = async (req: IExtendedRequest, res: Response) => {
     const userId = parseInt(req.id, 10);
     const { email, firstName, lastName, photo, bio, resumeLink } = req.body;
@@ -74,12 +61,6 @@ class UserController {
     }
   }
 
-  /**
-   * @desc    delete user profile
-   * @route   /api/v1/users
-   * @method  DELETE
-   * @access  private
-   */
   static deleteUserById = async (req: IExtendedRequest, res: Response) => {
     const userId = parseInt(req.id, 10);
 

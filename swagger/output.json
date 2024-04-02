@@ -1,0 +1,4960 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CareerCraft API",
+    "description": "API Documentation for CareerCraft, a job board platform, providing developers with essential information for integrating their applications seamlessly.",
+    "contact": {
+      "name": "Salma Hussien",
+      "email": "salmaa.hussien1@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "host": "localhost:500",
+  "basePath": "/api/v1",
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Bearer token authentication"
+    }
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "Everything about user routes"
+    },
+    {
+      "name": "company",
+      "description": "Everything about company routes"
+    },
+    {
+      "name": "job",
+      "description": "Everything about job routes"
+    },
+    {
+      "name": "skill",
+      "description": "Everything about skill routes"
+    },
+    {
+      "name": "review",
+      "description": "Everything about review routes"
+    }
+  ],
+  "paths": {
+    "/api/v1/users/signup": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "Create a new user and generate a token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password",
+                  "firstName",
+                  "lastName",
+                  "resumeLink"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email of the user (must be unique).",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the user.",
+                    "example": "mysecretpassword"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "description": "First name of the user.",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Last name of the user.",
+                    "example": "Doe"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "File name of the Photo (optional).",
+                    "example": "photo.png"
+                  },
+                  "bio": {
+                    "type": "string",
+                    "nullable": true,
+                    "maxLength": 1024,
+                    "description": "Biography of the user (optional).",
+                    "example": "A passionate software engineer."
+                  },
+                  "resumeLink": {
+                    "type": "string",
+                    "description": "URL to the user's resume.",
+                    "example": "http://example.com/resume.pdf"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response when a user is successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    },
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "photo.jpg"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "example": "A passionate software engineer"
+                    },
+                    "resumeLink": {
+                      "type": "string",
+                      "example": "http://example.com/resume.pdf"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error response when the provided email is already in use.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email already in use"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "User Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "mysecretpassword"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response when a user is successfully logedin.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    },
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "photo.jpg"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "example": "A passionate software engineer"
+                    },
+                    "resumeLink": {
+                      "type": "string",
+                      "example": "http://example.com/resume.pdf"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User entered wrong email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid email or password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/forget-password": {
+      "post": {
+        "description": "This endpoint allows users to initiate the password reset process by providing their email address. Upon submission, the system will send an email containing instructions to reset the password.\n",
+        "tags": [
+          "user"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Email is sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password reset link sent to your email account"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/reset-password/{id}/{token}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "description": "Resets the password for the user associated with the provided token and ID. Requires a valid token and user ID, along with the new password in the request body.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "User ID for which the password needs to be reset.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "path",
+            "name": "token",
+            "description": "Token used for password reset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "pwd123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password Updated Successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token, expired token, invalid link, or user ID. Invalid password data type or length. Indicates an issue with the provided token, link, user ID or new password.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid link or expired"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/change-password": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "description": "Change password for the user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "example": "pwd123"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "example": "newpwd"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password Changed Successfully!."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered current password length is less than 6 characters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "currentPassword length must be at least 6 characters long"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Gets the user's profile using user Id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User Id which  want to get his profile",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully return the user profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "photo.jpg"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "example": "A passionate software engineer"
+                    },
+                    "resumeLink": {
+                      "type": "string",
+                      "example": "http://example.com/resume.pdf"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "User gets his own profile.",
+        "responses": {
+          "200": {
+            "description": "Successfully return the user profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "photo.jpg"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "example": "A passionate software engineer"
+                    },
+                    "resumeLink": {
+                      "type": "string",
+                      "example": "http://example.com/resume.pdf"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "User updates his own profile.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email of the user (must be unique).",
+                    "example": "user@example.com"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "description": "First name of the user.",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Last name of the user.",
+                    "example": "Doe"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "description": "File name of the Photo (optional).",
+                    "example": "photo.png"
+                  },
+                  "bio": {
+                    "type": "string",
+                    "maxLength": 1024,
+                    "description": "Biography of the user (optional).",
+                    "example": "A passionate software engineer."
+                  },
+                  "resumeLink": {
+                    "type": "string",
+                    "description": "URL to the user's resume.",
+                    "example": "http://example.com/resume.pdf"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User profile successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "photo.jpg"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "example": "A passionate software engineer"
+                    },
+                    "resumeLink": {
+                      "type": "string",
+                      "example": "http://example.com/resume.pdf"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "User deletes his own profile.",
+        "responses": {
+          "200": {
+            "description": "User profile successfully deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/jobs/{jobId}": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "User applies for a job.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Job Id that user will apply for.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User applied for a job successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Application submitted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user or job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/signup": {
+      "post": {
+        "tags": [
+          "company"
+        ],
+        "description": "Create a new company and generate a token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password",
+                  "name",
+                  "industry",
+                  "location",
+                  "logo",
+                  "description",
+                  "websiteLink"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email of the company (must be unique).",
+                    "example": "company@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the company.",
+                    "example": "mysecretpassword"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Company name.",
+                    "example": "ALX"
+                  },
+                  "industry": {
+                    "type": "string",
+                    "description": "Field of the company's work.",
+                    "example": "Tech"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Location of the company.",
+                    "example": "Egypt, Cairo"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "description": "File name of the company logo.",
+                    "example": "companyLogo.png"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "maxLength": 1024,
+                    "description": "Brief overview of the company's role.",
+                    "example": "Leading provider of innovative tech solutions."
+                  },
+                  "websiteLink": {
+                    "type": "string",
+                    "description": "URL to the company website",
+                    "example": "http://ALX.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response when a company is successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    },
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the company (must be unique).",
+                      "example": "company@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of the company.",
+                      "example": "mysecretpassword"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Company name.",
+                      "example": "ALX"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Field of the company's work.",
+                      "example": "Tech"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the company.",
+                      "example": "Egypt, Cairo"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "description": "File name of the company logo.",
+                      "example": "companyLogo.png"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "description": "Brief overview of the company's role.",
+                      "example": "Leading provider of innovative tech solutions."
+                    },
+                    "websiteLink": {
+                      "type": "string",
+                      "description": "URL to the company website",
+                      "example": "http://ALX.com"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error response when the provided email is already in use.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email already in use"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/login": {
+      "post": {
+        "tags": [
+          "company"
+        ],
+        "description": "Company Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "company@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "mysecretpassword"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response when a company is successfully logedin.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    },
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the company (must be unique).",
+                      "example": "company@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of the company.",
+                      "example": "mysecretpassword"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Company name.",
+                      "example": "ALX"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Field of the company's work.",
+                      "example": "Tech"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the company.",
+                      "example": "Egypt, Cairo"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "description": "File name of the company logo.",
+                      "example": "companyLogo.png"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "description": "Brief overview of the company's role.",
+                      "example": "Leading provider of innovative tech solutions."
+                    },
+                    "websiteLink": {
+                      "type": "string",
+                      "description": "URL to the company website",
+                      "example": "http://ALX.com"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Company entered wrong email or password.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid email or password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/forget-password": {
+      "post": {
+        "description": "This endpoint allows companies to initiate the password reset process by providing their email address. Upon submission, the system will send an email containing instructions to reset the password.\n",
+        "tags": [
+          "company"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "company@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Email is sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password reset link sent to your email account"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/reset-password/{id}/{token}": {
+      "put": {
+        "tags": [
+          "company"
+        ],
+        "description": "Resets the password for the company associated with the provided token and ID. Requires a valid token and company ID, along with the new password in the request body.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Company ID for which the password needs to be reset.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "path",
+            "name": "token",
+            "description": "Token used for password reset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "pwd123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password Updated Successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token, expired token, invalid link, or company ID. Invalid password data type or length. Indicates an issue with the provided token, link, company ID or new password.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid link or expired"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/change-password": {
+      "put": {
+        "tags": [
+          "company"
+        ],
+        "description": "Change password for the company",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "example": "pwd123"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "example": "newpwd"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password Changed Successfully!."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered current password length is less than 6 characters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "currentPassword length must be at least 6 characters long"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "decription": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/{companyId}": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Gets the company's profile using company Id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "description": "Company Id which is used to get the related profile.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully return the user profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the company (must be unique).",
+                      "example": "company@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of the company.",
+                      "example": "mysecretpassword"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Company name.",
+                      "example": "ALX"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Field of the company's work.",
+                      "example": "Tech"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the company.",
+                      "example": "Egypt, Cairo"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "description": "File name of the company logo.",
+                      "example": "companyLogo.png"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "description": "Brief overview of the company's role.",
+                      "example": "Leading provider of innovative tech solutions."
+                    },
+                    "websiteLink": {
+                      "type": "string",
+                      "description": "URL to the company website",
+                      "example": "http://ALX.com"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/profile": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Company get its own profile.",
+        "responses": {
+          "200": {
+            "description": "Successfully return the company profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the company (must be unique).",
+                      "example": "company@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of the company.",
+                      "example": "mysecretpassword"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Company name.",
+                      "example": "ALX"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Field of the company's work.",
+                      "example": "Tech"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the company.",
+                      "example": "Egypt, Cairo"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "description": "File name of the company logo.",
+                      "example": "companyLogo.png"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "description": "Brief overview of the company's role.",
+                      "example": "Leading provider of innovative tech solutions."
+                    },
+                    "websiteLink": {
+                      "type": "string",
+                      "description": "URL to the company website",
+                      "example": "http://ALX.com"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Company updates his its profile.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email of the company (must be unique).",
+                    "example": "company@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the company.",
+                    "example": "mysecretpassword"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Company name.",
+                    "example": "ALX"
+                  },
+                  "industry": {
+                    "type": "string",
+                    "description": "Field of the company's work.",
+                    "example": "Tech"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Location of the company.",
+                    "example": "Egypt, Cairo"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "description": "File name of the company logo.",
+                    "example": "companyLogo.png"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "maxLength": 1024,
+                    "description": "Brief overview of the company's role.",
+                    "example": "Leading provider of innovative tech solutions."
+                  },
+                  "websiteLink": {
+                    "type": "string",
+                    "description": "URL to the company website",
+                    "example": "http://ALX.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Company profile successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the company (must be unique).",
+                      "example": "company@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of the company.",
+                      "example": "mysecretpassword"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Company name.",
+                      "example": "ALX"
+                    },
+                    "industry": {
+                      "type": "string",
+                      "description": "Field of the company's work.",
+                      "example": "Tech"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the company.",
+                      "example": "Egypt, Cairo"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "description": "File name of the company logo.",
+                      "example": "companyLogo.png"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "maxLength": 1024,
+                      "description": "Brief overview of the company's role.",
+                      "example": "Leading provider of innovative tech solutions."
+                    },
+                    "websiteLink": {
+                      "type": "string",
+                      "description": "URL to the company website",
+                      "example": "http://ALX.com"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-03-27T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Company deletes its own profile.",
+        "responses": {
+          "200": {
+            "401": null,
+            "description": "Company profile successfully deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Company deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/{companyId}/reviews": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Gets reviews associated with a company profile using companyId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "description": "Id of the company to get its reviews",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully return reviews of a specific company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Unique identifier for the review."
+                    },
+                    "rating": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Rating given to the company."
+                    },
+                    "content": {
+                      "type": "String",
+                      "example": "Great company with excellent services.",
+                      "description": "Content of the review with a maximum length of 1024 characters."
+                    },
+                    "userId": {
+                      "type": "Int",
+                      "example": 123,
+                      "description": "Foreign key referencing the id of the user who created the review."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "example": 456,
+                      "description": "Foreign key referencing the id of the company being reviewed."
+                    },
+                    "createdAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:15:00Z",
+                      "description": "Date and time when the review was created, automatically set to the current timestamp upon creation."
+                    },
+                    "updatedAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:20:00Z",
+                      "description": "Date and time when the review was last updated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found or user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/{companyId}/jobs": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Gets jobs published by a specific company using companyId.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "companyId",
+            "description": "Id of the company to get its jobs.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully return jobs of a specific company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Unique identifier for the job posting."
+                    },
+                    "title": {
+                      "type": "String",
+                      "example": "Software Engineer",
+                      "description": "Title of the job position."
+                    },
+                    "description": {
+                      "type": "String",
+                      "example": "Seeking a skilled software engineer to join our dynamic team.",
+                      "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                    },
+                    "location": {
+                      "type": "JobLocation",
+                      "example": "REMOTE",
+                      "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                    },
+                    "type": {
+                      "type": "JobType",
+                      "example": "FULL_TIME",
+                      "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                    },
+                    "salary": {
+                      "type": "Int",
+                      "example": 80000,
+                      "description": "Salary offered for the job position."
+                    },
+                    "status": {
+                      "type": "Boolean",
+                      "example": true,
+                      "description": "Current status of the job posting."
+                    },
+                    "applicationLink": {
+                      "type": "String",
+                      "example": "https://example.com/apply",
+                      "description": "Link to apply for the job position."
+                    },
+                    "applicantNumbers": {
+                      "type": "Int",
+                      "example": 10,
+                      "description": "Number of applicants who have applied for the job position."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "example": 123,
+                      "description": "ID of the company offering the job position."
+                    },
+                    "createdAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:00:00Z",
+                      "description": "Date and time when the job posting was created."
+                    },
+                    "updatedAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:05:00Z",
+                      "description": "Date and time when the job posting was last updated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company or user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs": {
+      "post": {
+        "tags": [
+          "job"
+        ],
+        "description": "Create a new job by company",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "description",
+                  "location",
+                  "type",
+                  "salary",
+                  "companyId",
+                  "skills"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Software Engineer",
+                    "description": "Title of the job."
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Seeking a skilled software engineer to join our dynamic team.",
+                    "description": "Description of the job role."
+                  },
+                  "location": {
+                    "type": "string",
+                    "enum": [
+                      "REMOTE",
+                      "OFFLINE",
+                      "HYBRID"
+                    ],
+                    "example": "REMOTE",
+                    "description": "Location type for the job (REMOTE, OFFLINE, HYBRID)."
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "FULL_TIME",
+                      "PART_TIME",
+                      "INTERNSHIP"
+                    ],
+                    "example": "FULL_TIME",
+                    "description": "Type of employment for the job (FULL_TIME, PART_TIME, INTERNSHIP)."
+                  },
+                  "salary": {
+                    "type": "integer",
+                    "example": 80000,
+                    "description": "Salary offered for the job."
+                  },
+                  "status": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Status of the job."
+                  },
+                  "applicationLink": {
+                    "type": "string",
+                    "example": "https://example.com/apply",
+                    "description": "Link to apply for the job."
+                  },
+                  "applicantNumbers": {
+                    "type": "integer",
+                    "example": 10,
+                    "description": "Number of applicants for the job."
+                  },
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Programming",
+                      "description": "Skill required for the job position."
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response when a company is successfully created a job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Unique identifier for the job posting."
+                    },
+                    "title": {
+                      "type": "String",
+                      "example": "Software Engineer",
+                      "description": "Title of the job position."
+                    },
+                    "description": {
+                      "type": "String",
+                      "example": "Seeking a skilled software engineer to join our dynamic team.",
+                      "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                    },
+                    "location": {
+                      "type": "JobLocation",
+                      "example": "REMOTE",
+                      "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                    },
+                    "type": {
+                      "type": "JobType",
+                      "example": "FULL_TIME",
+                      "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                    },
+                    "salary": {
+                      "type": "Int",
+                      "example": 80000,
+                      "description": "Salary offered for the job position."
+                    },
+                    "status": {
+                      "type": "Boolean",
+                      "example": true,
+                      "description": "Current status of the job posting."
+                    },
+                    "applicationLink": {
+                      "type": "String",
+                      "example": "https://example.com/apply",
+                      "description": "Link to apply for the job position."
+                    },
+                    "applicantNumbers": {
+                      "type": "Int",
+                      "example": 10,
+                      "description": "Number of applicants who have applied for the job position."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "example": 123,
+                      "description": "ID of the company offering the job position."
+                    },
+                    "createdAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:00:00Z",
+                      "description": "Date and time when the job posting was created."
+                    },
+                    "updatedAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:05:00Z",
+                      "description": "Date and time when the job posting was last updated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "title is required",
+                      "description": "Detailed error message describing the validation errors."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{jobId}": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "Gets job by its Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Unique identifer for the job.",
+            "required": true,
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get the job successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Unique identifier for the job posting."
+                    },
+                    "title": {
+                      "type": "String",
+                      "example": "Software Engineer",
+                      "description": "Title of the job position."
+                    },
+                    "description": {
+                      "type": "String",
+                      "example": "Seeking a skilled software engineer to join our dynamic team.",
+                      "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                    },
+                    "location": {
+                      "type": "JobLocation",
+                      "example": "REMOTE",
+                      "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                    },
+                    "type": {
+                      "type": "JobType",
+                      "example": "FULL_TIME",
+                      "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                    },
+                    "salary": {
+                      "type": "Int",
+                      "example": 80000,
+                      "description": "Salary offered for the job position."
+                    },
+                    "status": {
+                      "type": "Boolean",
+                      "example": true,
+                      "description": "Current status of the job posting."
+                    },
+                    "applicationLink": {
+                      "type": "String",
+                      "example": "https://example.com/apply",
+                      "description": "Link to apply for the job position."
+                    },
+                    "applicantNumbers": {
+                      "type": "Int",
+                      "example": 10,
+                      "description": "Number of applicants who have applied for the job position."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "example": 123,
+                      "description": "ID of the company offering the job position."
+                    },
+                    "createdAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:00:00Z",
+                      "description": "Date and time when the job posting was created."
+                    },
+                    "updatedAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:05:00Z",
+                      "description": "Date and time when the job posting was last updated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "job"
+        ],
+        "description": "Updates job by its Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Unique identifer for the job.",
+            "required": true,
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Software Engineer",
+                    "description": "Title of the job."
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Seeking a skilled software engineer to join our dynamic team.",
+                    "description": "Description of the job role."
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "REMOTE",
+                    "description": "Location type for the job (REMOTE, OFFLINE, HYBRID)."
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "FULL_TIME",
+                    "description": "Type of employment for the job (FULL_TIME, PART_TIME, INTERNSHIP)."
+                  },
+                  "salary": {
+                    "type": "integer",
+                    "example": 80000,
+                    "description": "Salary offered for the job."
+                  },
+                  "status": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Status of the job."
+                  },
+                  "applicationLink": {
+                    "type": "string",
+                    "example": "https://example.com/apply",
+                    "description": "Link to apply for the job."
+                  },
+                  "applicantNumbers": {
+                    "type": "integer",
+                    "example": 10,
+                    "description": "Number of applicants for the job."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job is updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1,
+                      "description": "Unique identifier for the job posting."
+                    },
+                    "title": {
+                      "type": "String",
+                      "example": "Software Engineer",
+                      "description": "Title of the job position."
+                    },
+                    "description": {
+                      "type": "String",
+                      "example": "Seeking a skilled software engineer to join our dynamic team.",
+                      "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                    },
+                    "location": {
+                      "type": "JobLocation",
+                      "example": "REMOTE",
+                      "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                    },
+                    "type": {
+                      "type": "JobType",
+                      "example": "FULL_TIME",
+                      "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                    },
+                    "salary": {
+                      "type": "Int",
+                      "example": 80000,
+                      "description": "Salary offered for the job position."
+                    },
+                    "status": {
+                      "type": "Boolean",
+                      "example": true,
+                      "description": "Current status of the job posting."
+                    },
+                    "applicationLink": {
+                      "type": "String",
+                      "example": "https://example.com/apply",
+                      "description": "Link to apply for the job position."
+                    },
+                    "applicantNumbers": {
+                      "type": "Int",
+                      "example": 10,
+                      "description": "Number of applicants who have applied for the job position."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "example": 123,
+                      "description": "ID of the company offering the job position."
+                    },
+                    "createdAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:00:00Z",
+                      "description": "Date and time when the job posting was created."
+                    },
+                    "updatedAt": {
+                      "type": "DateTime",
+                      "example": "2024-03-28T10:05:00Z",
+                      "description": "Date and time when the job posting was last updated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "job"
+        ],
+        "description": "Delete job by its Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Unique identifer for the job.",
+            "required": true,
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Job deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/by-skills": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "Retrieve jobs based on the provided skill names in the query parameters.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skills",
+            "description": "Plus-separated list of skill names.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "JavaScript+HTML+CSS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve a list of jobs related to the provided skills.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifier for the job posting."
+                      },
+                      "title": {
+                        "type": "String",
+                        "example": "Software Engineer",
+                        "description": "Title of the job position."
+                      },
+                      "description": {
+                        "type": "String",
+                        "example": "Seeking a skilled software engineer to join our dynamic team.",
+                        "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                      },
+                      "location": {
+                        "type": "JobLocation",
+                        "example": "REMOTE",
+                        "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                      },
+                      "type": {
+                        "type": "JobType",
+                        "example": "FULL_TIME",
+                        "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                      },
+                      "salary": {
+                        "type": "Int",
+                        "example": 80000,
+                        "description": "Salary offered for the job position."
+                      },
+                      "status": {
+                        "type": "Boolean",
+                        "example": true,
+                        "description": "Current status of the job posting."
+                      },
+                      "applicationLink": {
+                        "type": "String",
+                        "example": "https://example.com/apply",
+                        "description": "Link to apply for the job position."
+                      },
+                      "applicantNumbers": {
+                        "type": "Int",
+                        "example": 10,
+                        "description": "Number of applicants who have applied for the job position."
+                      },
+                      "companyId": {
+                        "type": "Int",
+                        "example": 123,
+                        "description": "ID of the company offering the job position."
+                      },
+                      "createdAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:00:00Z",
+                        "description": "Date and time when the job posting was created."
+                      },
+                      "updatedAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:05:00Z",
+                        "description": "Date and time when the job posting was last updated."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/matched-skills": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "Retrieve jobs based on skills that match user skills.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "Description": "Successfully retrieve a list of matched jobs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifier for the job posting."
+                      },
+                      "title": {
+                        "type": "String",
+                        "example": "Software Engineer",
+                        "description": "Title of the job position."
+                      },
+                      "description": {
+                        "type": "String",
+                        "example": "Seeking a skilled software engineer to join our dynamic team.",
+                        "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                      },
+                      "location": {
+                        "type": "JobLocation",
+                        "example": "REMOTE",
+                        "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                      },
+                      "type": {
+                        "type": "JobType",
+                        "example": "FULL_TIME",
+                        "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                      },
+                      "salary": {
+                        "type": "Int",
+                        "example": 80000,
+                        "description": "Salary offered for the job position."
+                      },
+                      "status": {
+                        "type": "Boolean",
+                        "example": true,
+                        "description": "Current status of the job posting."
+                      },
+                      "applicationLink": {
+                        "type": "String",
+                        "example": "https://example.com/apply",
+                        "description": "Link to apply for the job position."
+                      },
+                      "applicantNumbers": {
+                        "type": "Int",
+                        "example": 10,
+                        "description": "Number of applicants who have applied for the job position."
+                      },
+                      "companyId": {
+                        "type": "Int",
+                        "example": 123,
+                        "description": "ID of the company offering the job position."
+                      },
+                      "createdAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:00:00Z",
+                        "description": "Date and time when the job posting was created."
+                      },
+                      "updatedAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:05:00Z",
+                        "description": "Date and time when the job posting was last updated."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/applied": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "Retrieve jobs to which the user has applied.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "Description": "Successfully retrieve a list of applied jobs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifier for the job posting."
+                      },
+                      "title": {
+                        "type": "String",
+                        "example": "Software Engineer",
+                        "description": "Title of the job position."
+                      },
+                      "description": {
+                        "type": "String",
+                        "example": "Seeking a skilled software engineer to join our dynamic team.",
+                        "description": "Description of the job role. Limited to a maximum of 1024 characters."
+                      },
+                      "location": {
+                        "type": "JobLocation",
+                        "example": "REMOTE",
+                        "description": "Location type for the job position (REMOTE, OFFLINE, HYBRID)."
+                      },
+                      "type": {
+                        "type": "JobType",
+                        "example": "FULL_TIME",
+                        "description": "Type of employment for the job position (FULL_TIME, PART_TIME, INTERNSHIP)."
+                      },
+                      "salary": {
+                        "type": "Int",
+                        "example": 80000,
+                        "description": "Salary offered for the job position."
+                      },
+                      "status": {
+                        "type": "Boolean",
+                        "example": true,
+                        "description": "Current status of the job posting."
+                      },
+                      "applicationLink": {
+                        "type": "String",
+                        "example": "https://example.com/apply",
+                        "description": "Link to apply for the job position."
+                      },
+                      "applicantNumbers": {
+                        "type": "Int",
+                        "example": 10,
+                        "description": "Number of applicants who have applied for the job position."
+                      },
+                      "companyId": {
+                        "type": "Int",
+                        "example": 123,
+                        "description": "ID of the company offering the job position."
+                      },
+                      "createdAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:00:00Z",
+                        "description": "Date and time when the job posting was created."
+                      },
+                      "updatedAt": {
+                        "type": "DateTime",
+                        "example": "2024-03-28T10:05:00Z",
+                        "description": "Date and time when the job posting was last updated."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews": {
+      "post": {
+        "tags": [
+          "review"
+        ],
+        "description": "Create review by a user for a specific company.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": {
+                    "type": "number",
+                    "description": "ID of the company for which the review is being created."
+                  },
+                  "rating": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "Rating given to the company (must be between 1 and 5)."
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 1024,
+                    "description": "Content of the review (must be at least 10 characters long)."
+                  }
+                },
+                "required": [
+                  "companyId",
+                  "rating",
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "description": "Unique identifier for the review."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "description": "ID of the company for which the review was created."
+                    },
+                    "userId": {
+                      "type": "Int",
+                      "description": "ID of the user who created the review."
+                    },
+                    "rating": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 5,
+                      "description": "Rating given to the company (must be between 1 and 5)."
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 10,
+                      "description": "Content of the review (must be at least 10 characters long)."
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "companyId": 123,
+                  "userId": 456,
+                  "rating": 5,
+                  "content": "Great company with excellent services."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Vaildating the request body constraints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Detailed error message describing the validation errors.",
+                      "example": "content is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/{reviewId}": {
+      "get": {
+        "tags": [
+          "review"
+        ],
+        "description": "Get review by Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "paramters": [
+          {
+            "in": "path",
+            "name": "reviewId",
+            "description": "Unique identifer for the review",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Review is found successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "description": "Unique identifier for the review."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "description": "ID of the company for which the review was created."
+                    },
+                    "userId": {
+                      "type": "Int",
+                      "description": "ID of the user who created the review."
+                    },
+                    "rating": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 5,
+                      "description": "Rating given to the company (must be between 1 and 5)."
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 10,
+                      "description": "Content of the review (must be at least 10 characters long)."
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "companyId": 123,
+                  "userId": 456,
+                  "rating": 5,
+                  "content": "Great company with excellent services."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found review or user or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "review"
+        ],
+        "description": "Update review by Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "paramters": [
+          {
+            "in": "path",
+            "name": "reviewId",
+            "description": "Unique identifer for the review",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "Rating given to the company (must be between 1 and 5)."
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 1024,
+                    "description": "Content of the review (must be at least 10 characters long)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review updates successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "description": "Unique identifier for the review."
+                    },
+                    "companyId": {
+                      "type": "Int",
+                      "description": "ID of the company for which the review was created."
+                    },
+                    "userId": {
+                      "type": "Int",
+                      "description": "ID of the user who created the review."
+                    },
+                    "rating": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 5,
+                      "description": "Rating given to the company (must be between 1 and 5)."
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 10,
+                      "description": "Content of the review (must be at least 10 characters long)."
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "companyId": 123,
+                  "userId": 456,
+                  "rating": 5,
+                  "content": "Great company with excellent services."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found review or user or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "review"
+        ],
+        "description": "Delete review by Id.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "paramters": [
+          {
+            "in": "path",
+            "name": "reviewId",
+            "description": "Unique identifer for the review",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review updates successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Review deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found review or user or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}/skills": {
+      "get": {
+        "tags": [
+          "skill"
+        ],
+        "description": "Get skills for a user.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "Unique identifer for the user",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get the skills successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifer for the created skill"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Programming",
+                        "description": "Name of the created skill."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user or company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/skills": {
+      "post": {
+        "tags": [
+          "skill"
+        ],
+        "description": "Create different skills by a user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "skills"
+                ],
+                "properties": {
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Programming",
+                      "description": "Skill required for the user."
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The provided list of skills is already associated with this user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "All provided skills are already related to the user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Skills created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifer for the created skill"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Programming",
+                        "description": "Name of the created skill"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message describing the validation error.",
+                      "example": "skills must be an array of strings with a minimum length of 3 characters"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{jobId]/skills": {
+      "post": {
+        "tags": [
+          "skill"
+        ],
+        "description": "Create different skills for a job.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Unique identifer for the job.",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "skills"
+                ],
+                "properties": {
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Programming",
+                      "description": "Skill required for the job position."
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The provided list of skills is already associated with this job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "All provided skills are already related to the job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Skills created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "Int",
+                        "example": 1,
+                        "description": "Unique identifer for the created skill"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Programming",
+                        "description": "Name of the created skill"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message describing the validation error.",
+                      "example": "skills must be an array of strings with a minimum length of 3 characters"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Permission denied. The logged-in company does not have permission to modify skills for the specified job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/skills/{skillId}": {
+      "delete": {
+        "tags": [
+          "skill"
+        ],
+        "description": "Delete a specific skill by user.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "skillId",
+            "description": "Unique identifer for the skill.",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Skill is deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Skill deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found user or skill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{jobId}/skills/{skillId}": {
+      "delete": {
+        "tags": [
+          "skill"
+        ],
+        "description": "Delete a specific skill for a specific job.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Unique identifer for the job.",
+            "schema": {
+              "type": "Int"
+            }
+          },
+          {
+            "in": "path",
+            "name": "skillId",
+            "description": "Unique identifer for the skill.",
+            "schema": {
+              "type": "Int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Skill is deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Skill deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message indicating the reason for unauthorized access.",
+                      "example": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When user or company want to access an entity that they haven't the permission to access it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Permission Denied"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found job or company or skill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error response for any server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

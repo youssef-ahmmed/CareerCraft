@@ -1,0 +1,33 @@
+tags:
+  - job
+description:  Delete job by its Id.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: jobId
+    description: Unique identifer for the job.
+    required: true
+    schema:
+      type: Int
+responses:
+  200:
+    description: Job deleted successfully.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Job deleted successfully
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  403:
+    $ref: '../../common/permission.denied.yaml'
+  404:
+    description: Not found job or company.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

@@ -15,7 +15,7 @@ abstract class PasswordController {
     try {
       const entity = await this.getEntityByEmail(email);
       if (!entity) {
-        return res.status(400).json({ message: 'Email not exist' });
+        return res.status(404).json({ message: 'User not found' });
       }
 
       const secret: string = process.env.TOKEN_SECRET + entity.password;
@@ -54,7 +54,7 @@ abstract class PasswordController {
       const hashedPassword: string = await hashPassword(newPassword);
       await this.updateEntityById(entityId, { password: hashedPassword });
 
-      return res.status(201).json({ message: 'Password Updated Successfully!' });
+      return res.status(200).json({ message: 'Password Updated Successfully!' });
     } catch (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -75,7 +75,7 @@ abstract class PasswordController {
       const hashedPassword: string = await hashPassword(newPassword);
       await this.updateEntityById(entityId, { password: hashedPassword });
 
-      return res.status(201).json({ message: 'Password Changed Successfully!' });
+      return res.status(200).json({ message: 'Password Changed Successfully!' });
     } catch (err) {
       return res.status(500).json({ message: 'Internal server error' });
     }

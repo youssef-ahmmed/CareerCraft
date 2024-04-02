@@ -1,0 +1,10 @@
+description: |
+  This response occurs when the request body fails to adhere to our Joi validation layer. The specific message may vary from the example provided. In this context, the message indicates that the entered email is in an incorrect format.
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Email must be a valid email

@@ -14,10 +14,10 @@ userRouter
   .get('/profile', verifyToken, UserController.getUserById);
 
 userRouter
-  .delete('/', verifyToken, UserController.deleteUserById);
+  .delete('/profile', verifyToken, UserController.deleteUserById);
 
 userRouter
-  .put('/', 
+  .put('/profile', 
     uploadImage.single('photo'),
     verifyToken,
     validateUpdateUserById,

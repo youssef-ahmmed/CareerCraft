@@ -1,0 +1,31 @@
+tags:
+  - user
+security:
+    - BearerAuth: []
+description: User applies for a job.
+parameters:
+  -
+    in: path
+    name: jobId
+    description: Job Id that user will apply for.
+    required: true
+    schema:
+      type: number
+responses:
+  201:
+    description: User applied for a job successfully.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Application submitted successfully
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  404:
+    description: Not found user or job
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

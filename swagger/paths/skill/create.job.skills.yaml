@@ -1,0 +1,85 @@
+tags:
+  - skill
+description: Create different skills for a job.
+security:
+  - BearerAuth: []
+parameters:
+  -
+    in: path
+    name: jobId
+    description: Unique identifer for the job.
+    schema:
+      type: Int
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - skills
+        properties:
+          skills:
+            type: array
+            items:
+              type: string
+              format: string
+              example: Programming
+              description: Skill required for the job position.
+            minItems: 1
+responses:
+  200:
+    description: The provided list of skills is already associated with this job.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: All provided skills are already related to the job
+  201:
+    description: Skills created successfully.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: Int
+                example: 1
+                description: Unique identifer for the created skill
+              name:
+                type: string
+                example: Programming
+                description: Name of the created skill
+  400:
+    description: Bad Request - Validation Error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Error message describing the validation error.
+              example: "skills must be an array of strings with a minimum length of 3 characters"
+  401:
+    $ref: '../../common/unauthorized.yaml'
+  403:
+    description: Permission denied. The logged-in company does not have permission to modify skills for the specified job.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Permission denied
+  404:
+    description: Not found job or company.
+    $ref: '../../common/not.found.yaml'
+  500:
+    $ref: '../../common/server.error.yaml'

@@ -1,0 +1,34 @@
+tags:
+  - company
+description: Company Login
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: company@example.com
+          password:
+            type: string
+            example: mysecretpassword
+responses:
+  201:
+    description: Response when a company is successfully logedin.
+    $ref: '../../common/company.object.yaml'
+  400:
+    $ref: '../../common/email.failed.validation.yaml'
+  401:
+    description: Company entered wrong email or password.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Invalid email or password
+  500:
+    $ref: '../../common/server.error.yaml'
