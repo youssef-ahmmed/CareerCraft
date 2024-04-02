@@ -61,6 +61,8 @@ responses:
           content: Great company with excellent services.
   401:
     $ref: '../../common/unauthorized.yaml'
+  403:
+    $ref: '../../common/permission.denied.yaml'
   404:
     description: Not found review or user or company.
     $ref: '../../common/not.found.yaml'

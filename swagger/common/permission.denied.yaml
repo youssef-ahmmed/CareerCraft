@@ -1,0 +1,9 @@
+description: When user or company want to access an entity that they haven't the permission to access it.
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Permission Denied

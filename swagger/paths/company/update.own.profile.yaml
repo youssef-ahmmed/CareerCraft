@@ -1,8 +1,8 @@
 tags:
-  - user
+  - company
 security:
   - BearerAuth: []
-description: User updates his own profile.
+description: Company updates his its profile.
 requestBody:
   required: true
   content:
@@ -46,7 +46,7 @@ requestBody:
             example: http://ALX.com
 responses:
   201:
-    description: User profile successfully updated.
+    description: Company profile successfully updated.
     content:
       application/json:
         schema:

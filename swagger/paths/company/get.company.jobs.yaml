@@ -2,7 +2,7 @@ tags:
   - company
 security:
   - BearerAuth: []
-description: Company get its own profile.
+description: Gets jobs published by a specific company using companyId.
 parameters:
   -
     in: path

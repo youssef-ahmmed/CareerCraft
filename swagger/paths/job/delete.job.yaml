@@ -24,6 +24,8 @@ responses:
               example: Job deleted successfully
   401:
     $ref: '../../common/unauthorized.yaml'
+  403:
+    $ref: '../../common/permission.denied.yaml'
   404:
     description: Not found job or company.
     $ref: '../../common/not.found.yaml'

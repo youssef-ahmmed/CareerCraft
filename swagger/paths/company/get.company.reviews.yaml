@@ -2,7 +2,7 @@ tags:
   - company
 security:
   - BearerAuth: []
-description: Company get its own profile.
+description: Gets reviews associated with a company profile using companyId
 parameters:
   -
     in: path

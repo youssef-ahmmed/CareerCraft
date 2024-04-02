@@ -1,6 +1,6 @@
 tags:
   - job
-description: Gets job by its Id.
+description: Updates job by its Id.
 security:
   - BearerAuth: []
 parameters:
@@ -56,6 +56,8 @@ responses:
     $ref: '../../common/skill.object.yaml'
   401:
     $ref: '../../common/unauthorized.yaml'
+  403:
+    $ref: '../../common/permission.denied.yaml'
   404:
     description: Not found job or company.
     $ref: '../../common/not.found.yaml'

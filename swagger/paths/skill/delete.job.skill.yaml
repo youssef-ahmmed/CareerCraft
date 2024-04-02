@@ -30,15 +30,7 @@ responses:
   401:
     $ref: '../../common/unauthorized.yaml'
   403:
-    description: Permission denied. The logged-in company does not have permission to delete this skill.
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: Permission denied
+    $ref: '../../common/permission.denied.yaml'
   404:
     description: Not found job or company or skill.
     $ref: '../../common/not.found.yaml'

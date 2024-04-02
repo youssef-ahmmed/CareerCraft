@@ -27,7 +27,5 @@ tags:
     description: Everything about skill routes
   - name: review
     description: Everything about review routes
-  - name: notification
-    description: Everything about notification routes
 paths:
   $ref: './paths/index.yaml'
