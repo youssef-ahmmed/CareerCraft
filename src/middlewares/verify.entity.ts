@@ -12,7 +12,7 @@ export const verifyEntityExistance = async (
 
   const user = await UserDao.getUserById(id);
   const company = await CompanyDao.getCompanyById(id)
-  if (!user && company) {
+  if (!user && !company) {
     return res.status(404).json({ message: 'Not found' });
   }
 
