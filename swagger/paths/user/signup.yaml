@@ -45,6 +45,14 @@ requestBody:
             type: string
             description: URL to the user's resume.
             example: http://example.com/resume.pdf
+          skills:
+            type: array
+            items:
+              type: string
+              format: string
+              example: "Programming"
+              description: Skill required for the job position.
+            minItems: 1
 responses:
   201:
     description: Response when a user is successfully created.

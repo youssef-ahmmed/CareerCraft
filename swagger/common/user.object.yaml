@@ -38,3 +38,11 @@ content:
           type: string
           format: date-time
           example: "2024-03-27T12:00:00Z"
+        skills:
+          type: array
+          items:
+            type: string
+            format: string
+            example: "Programming"
+            description: Skill required for the job position.
+          minItems: 1
