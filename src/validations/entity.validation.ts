@@ -21,6 +21,7 @@ class EntityValidation {
       photo: joi.string().trim(),
       bio: joi.string().min(5),
       resumeLink: joi.string().uri().required(),
+      skills: joi.array().items(joi.string().trim().required()).min(1).required(),
     });
 
     return schema.validate(requestBody);

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { comparePassword, createToken } from "../utils/auth";
+import SkillDao from "../models/dao/skill.dao";
 
 abstract class EntityAuthController {
   protected abstract createEntity(entityDto: any): Promise<any>;
@@ -12,9 +13,15 @@ abstract class EntityAuthController {
       const entity = await this.createEntity(entityDto);
       const token: string = createToken(entity.id);
 
+      let skills: object[];
+      if (req.body.skills) {
+        const skillsNames = req.body.skills;
+        skills = await SkillDao.createSkillsByUser(skillsNames, entity.id);
+      }
+
       const { password, ...otherAttributes } = entity;
 
-      return res.status(201).json({ token, ...otherAttributes });
+      return res.status(201).json({ token, ...otherAttributes, skills });
     } catch (err) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
