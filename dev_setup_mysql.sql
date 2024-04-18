@@ -1,4 +1,4 @@
--- Create FamilyHub db
+-- Create CareerCraft db
 CREATE DATABASE IF NOT EXISTS `CareerCraft`;
 
 CREATE USER IF NOT EXISTS 'SY'@'localhost' IDENTIFIED BY 'SY_pwd';
